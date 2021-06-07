@@ -1,7 +1,8 @@
 import './App.css';
-
+import {Routes, Route} from 'react-router-dom'
 import {useWindowSize} from './context/useWindowSize'
 import {Navigation} from './components/Navigation'
+import {Home} from './components/Home'
 import {Footer} from './components/Footer'
 
 function App() {
@@ -9,7 +10,11 @@ function App() {
   return (
     <div className="App">
       <Navigation/>
-      <div style={{minHeight:"100vh"}}></div>
+      <div style={{minHeight:"100vh"}}>
+        <Routes>
+          <Route path='/' element = {<Home/>} />
+        </Routes>
+      </div>
 
       <Footer/>
      {width < 600 && (
