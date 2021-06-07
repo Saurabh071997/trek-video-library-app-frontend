@@ -1,0 +1,22 @@
+:root {
+    --txt-light: #e5e5e5;
+    --txt-light-secondary: #a3a3a3;
+    --txt-225: 2.25rem;
+}
+
+.page-head {
+    font-size: var(--txt-225);
+    padding: 1rem;
+    color: var(--truegray200);
+}
+
+@media screen and (max-width:600px){
+    .page-head {
+        font-size: var(--txt-175);
+    }
+
+    .card-margin{
+        margin:0rem auto;
+    }
+    
+}

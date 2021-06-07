@@ -1,4 +1,4 @@
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './Categories.css'
 import { useLibrary } from "../context/LibraryProvider";
 import { ACTIONS } from "../context/libraryReducer";
@@ -10,7 +10,7 @@ export const Categories = () => {
     dispatch
   } = useLibrary();
 
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="page-layout">
@@ -27,7 +27,7 @@ export const Categories = () => {
                   payload: { categoryId: _id }
                 });
 
-                // navigate("/videos");
+                navigate("/videos");
               }}
             >
               <img

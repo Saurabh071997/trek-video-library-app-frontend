@@ -5,6 +5,8 @@ import {Navigation} from './components/Navigation'
 import {Home} from './components/Home'
 import {Categories} from './components/Categories'
 import {LoginPage} from './components/LoginPage'
+import {VideoDisplay} from './components/VideoDisplay'
+import {VideoPage} from './components/VideoPage'
 import {Footer} from './components/Footer'
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           <Route path="/" element = {<Home/>} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/videos" element={<VideoDisplay />} />
+          <Route path="/video/:videoId" element={<VideoPage />} />
         </Routes>
       </div>
 

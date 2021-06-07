@@ -1,12 +1,8 @@
-
 import { NavLink, Link } from "react-router-dom";
-
 import './Navigation.css'
-
-// import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../context/AuthProvider";
 import { useWindowSize } from "../context/useWindowSize";
-
-// import user_icon from "../images/user-icon.svg";
+import user_icon from "../images/user-icon.svg";
 import home from "../images/home_icon.svg";
 import watch_icon from "../images/watch_later.svg";
 import lib_icon from "../images/library.svg";
@@ -16,32 +12,32 @@ import cat_icon from "../images/category.svg";
 export const SignIn = () => {
   return (
     <div>
-      {/* <NavLink to="/login"> */}
+      <NavLink to="/login">
         <button className="btn-sign-in"> sign in</button>
-      {/* </NavLink> */}
+      </NavLink>
     </div>
   );
 }
 
-// function DisplayProfile() {
-//   return (
-//     <NavLink to="/profile">
-//       <button type="button" className="btn-icon">
-//         <img
-//           src={user_icon}
-//           title="Account"
-//           className="img30x30"
-//           alt="user_icon"
-//         />
-//       </button>
-//     </NavLink>
-//   );
-// }
+function DisplayProfile() {
+  return (
+    <NavLink to="/profile">
+      <button type="button" className="btn-icon">
+        <img
+          src={user_icon}
+          title="Account"
+          className="img30x30"
+          alt="user_icon"
+        />
+      </button>
+    </NavLink>
+  );
+}
 
 export const DesktopNavigation =()=> {
-//   const {
-//     authState: { userLoggedIn }
-//   } = useAuth();
+  const {
+    authState: { userLoggedIn }
+  } = useAuth();
   return (
     <div style={{ margin: "0rem", padding: "0rem" }}>
       <div className="nav-mob-top">
@@ -94,9 +90,8 @@ export const DesktopNavigation =()=> {
             </button>
           {/* </NavLink> */}
 
-          <SignIn/>
 
-          {/* {userLoggedIn ? <DisplayProfile /> : <SignIn />} */}
+          {userLoggedIn ? <DisplayProfile /> : <SignIn />}
         </div>
       </div>
     </div>
@@ -104,16 +99,15 @@ export const DesktopNavigation =()=> {
 }
 
 export const MobileNavigation = () => {
-//   const {
-//     authState: { userLoggedIn }
-//   } = useAuth();
+  const {
+    authState: { userLoggedIn }
+  } = useAuth();
   return (
     <div className="nav-mob">
       <div className="nav-mob-top">
         <div className="nav-mob-logo">Trek</div>
-        <SignIn/>
 
-        {/* {userLoggedIn ? <DisplayProfile /> : <SignIn />} */}
+        {userLoggedIn ? <DisplayProfile /> : <SignIn />}
       </div>
 
       <div className="nav-mob-bottom">
