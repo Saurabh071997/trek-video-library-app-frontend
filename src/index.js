@@ -4,12 +4,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from 'react-router-dom'
 import {LibraryProvider} from './context/LibraryProvider'
+import {AuthProvider} from './context/AuthProvider'
 
 ReactDOM.render(
   <Router>
-    <LibraryProvider>
-      <App />
-    </LibraryProvider>
+    <AuthProvider>
+      <LibraryProvider>
+        <App />
+      </LibraryProvider>
+    </AuthProvider>
   </Router>,
   document.getElementById('root')
 );

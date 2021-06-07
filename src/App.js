@@ -1,9 +1,10 @@
-import './App.css';
+import './App.css'
 import {Routes, Route} from 'react-router-dom'
 import {useWindowSize} from './context/useWindowSize'
 import {Navigation} from './components/Navigation'
 import {Home} from './components/Home'
 import {Categories} from './components/Categories'
+import {LoginPage} from './components/LoginPage'
 import {Footer} from './components/Footer'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element = {<Home/>} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
 

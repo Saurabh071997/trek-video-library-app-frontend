@@ -13,7 +13,7 @@ export const ACTIONS = {
     TOGGLE_TOAST: "TOGGLE_TOAST"
   };
   
-  export function libraryReducer(state, action) {
+  export const libraryReducer = (state, action) => {
     switch (action.TYPE) {
       case "SET_CATEGORY":
         return { ...state, categoryList: action.payload.categories };

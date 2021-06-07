@@ -1,0 +1,79 @@
+
+:root {
+    --bg-dark: #262626;
+    --bg-nav: #3f3f46;
+    --txt-light: #e5e5e5;
+    --txt-light-secondary: #a3a3a3;
+    --txt-225: 2.25rem;
+}
+
+.component-head {
+    font-size: var(--txt-225);
+    color: var(--txt-light-secondary);
+    text-align: center;
+    margin-top: 2rem;
+}
+  
+.login-block {
+    padding: 1rem;
+    width: 30%;
+    margin: 1rem auto;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+}
+  
+.floating-form {
+    width: auto;
+    margin: 0rem auto;
+}
+  
+.floating-label {
+    width: 50%;
+    margin: 1rem auto;
+}
+  
+.floating-input {
+    font-size: var(--txt-125);
+    color: white;
+}
+  
+.floating-input:focus {
+    border: 1px solid #a8a29e;
+}
+  
+label {
+    font-size: var(--txt-115);
+}
+  
+.floating-input-outlined:focus ~ label,
+.floating-input-outlined:not(:placeholder-shown) ~ label {
+    margin-left: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--txt-light-secondary);
+    background-color: var(--bg-dark);
+}
+  
+.btn {
+    margin: 1rem auto;
+}
+  
+.align-center {
+    text-align: center;
+}
+
+@media screen and (max-width:600px){
+    
+    .login-block {
+        padding: 1rem;
+        width: 80%;
+        margin: 1rem auto;
+        border: 1px solid white;
+        border-radius: 0.5rem;
+    }
+
+    .floating-label {
+        width: auto;
+        margin: 1rem auto;
+    }
+
+}
