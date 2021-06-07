@@ -7,6 +7,10 @@ import {Categories} from './components/Categories'
 import {LoginPage} from './components/LoginPage'
 import {VideoDisplay} from './components/VideoDisplay'
 import {VideoPage} from './components/VideoPage'
+import {PrivateRoute} from './components/PrivateRoute'
+import {UserProfile} from './components/private/UserProfile'
+import {LikedVideos} from './components/private/LikedVideos'
+import {WatchLater} from './components/private/WatchLater'
 import {Footer} from './components/Footer'
 
 function App() {
@@ -21,6 +25,11 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/videos" element={<VideoDisplay />} />
           <Route path="/video/:videoId" element={<VideoPage />} />
+          <PrivateRoute path="/profile" element={<UserProfile />} />
+          <PrivateRoute path="/likedvideo" element={<LikedVideos />} />
+          <PrivateRoute path="/watchlater" element={<WatchLater />} />
+          <PrivateRoute path="/likedvideo/:videoId" element={<VideoPage />} />
+          <PrivateRoute path="/watchlater/:videoId" element={<VideoPage />} />
         </Routes>
       </div>
 

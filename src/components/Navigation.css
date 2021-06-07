@@ -1,12 +1,4 @@
 
-:root {
-  --bg-dark: #262626;
-  --bg-nav: #3f3f46;
-  --txt-light: #e5e5e5;
-  --txt-light-secondary: #a3a3a3;
-  --txt-225: 2.25rem;
-}
-
 .nav-mob {
   padding: 0rem;
   margin: 0rem;
