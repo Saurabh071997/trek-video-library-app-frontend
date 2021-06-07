@@ -1,5 +1,5 @@
 
-// import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import './Navigation.css'
 
@@ -45,12 +45,12 @@ export const DesktopNavigation =()=> {
   return (
     <div style={{ margin: "0rem", padding: "0rem" }}>
       <div className="nav-mob-top">
-        {/* <Link to="/" style={{ textDecoration: "none" }}> */}
+        <Link to="/" style={{ textDecoration: "none" }}>
           <div className="nav-mob-logo">Trek</div>
-        {/* </Link> */}
+        </Link>
 
         <div style={{ display: "flex" }}>
-          {/* <NavLink to="/categories"> */}
+          <NavLink to="/categories">
             <button type="button" className="btn-icon">
               <img
                 src={cat_icon}
@@ -59,7 +59,7 @@ export const DesktopNavigation =()=> {
                 alt="home"
               />
             </button>
-          {/* </NavLink> */}
+          </NavLink>
 
           {/* <NavLink to="/playlist"> */}
             <button type="button" className="btn-icon">
@@ -117,17 +117,17 @@ export const MobileNavigation = () => {
       </div>
 
       <div className="nav-mob-bottom">
-        {/* <NavLink to="/"> */}
+        <NavLink to="/">
           <button type="button" className="btn-icon">
             <img src={home} className="img30x30" alt="home_icon" />
           </button>
-        {/* </NavLink> */}
+        </NavLink>
 
-        {/* <NavLink to="/categories"> */}
+        <NavLink to="/categories">
           <button type="button" className="btn-icon">
             <img src={cat_icon} className="img30x30" alt="home_icon" />
           </button>
-        {/* </NavLink> */}
+        </NavLink>
 
         {/* <NavLink to="/playlist"> */}
           <button type="button" className="btn-icon">

@@ -3,6 +3,7 @@ import {Routes, Route} from 'react-router-dom'
 import {useWindowSize} from './context/useWindowSize'
 import {Navigation} from './components/Navigation'
 import {Home} from './components/Home'
+import {Categories} from './components/Categories'
 import {Footer} from './components/Footer'
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
       <Navigation/>
       <div style={{minHeight:"100vh"}}>
         <Routes>
-          <Route path='/' element = {<Home/>} />
+          <Route path="/" element = {<Home/>} />
+          <Route path="/categories" element={<Categories />} />
         </Routes>
       </div>
 

@@ -1,4 +1,4 @@
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import './Home.css'
 import arrow from "../images/right.svg";
 import { useWindowSize } from "../context/useWindowSize";
@@ -26,7 +26,7 @@ export const Home = () => {
         <div className="txt-large">Rush</div>
       </div>
 
-      {/* <Link to="/categories"> */}
+      <Link to="/categories">
         <div className={width > 600 ? "div-home-nav" : "div-home-sub"}>
           <div className="div-home-nav-txt">Explore</div>
 
@@ -34,7 +34,7 @@ export const Home = () => {
             <img src={arrow} className="link-image bounce" alt="img" />
           </div>
         </div>
-      {/* </Link> */}
+      </Link>
     </div>
   );
 }
