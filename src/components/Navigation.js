@@ -57,7 +57,7 @@ export const DesktopNavigation =()=> {
             </button>
           </NavLink>
 
-          {/* <NavLink to="/playlist"> */}
+          <NavLink to="/playlist">
             <button type="button" className="btn-icon">
               <img
                 src={lib_icon}
@@ -66,9 +66,9 @@ export const DesktopNavigation =()=> {
                 alt="lib_icon"
               />
             </button>
-          {/* </NavLink> */}
+          </NavLink>
 
-          {/* <NavLink to="/watchlater"> */}
+          <NavLink to="/watchlater">
             <button type="button" className="btn-icon">
               <img
                 src={watch_icon}
@@ -77,9 +77,9 @@ export const DesktopNavigation =()=> {
                 alt="watch_icon"
               />
             </button>
-          {/* </NavLink> */}
+          </NavLink>
 
-          {/* <NavLink to="/likedvideo"> */}
+          <NavLink to="/likedvideo">
             <button type="button" className="btn-icon">
               <img
                 src={wish_icon}
@@ -88,7 +88,7 @@ export const DesktopNavigation =()=> {
                 alt="wish_icon"
               />
             </button>
-          {/* </NavLink> */}
+          </NavLink>
 
 
           {userLoggedIn ? <DisplayProfile /> : <SignIn />}
@@ -123,23 +123,23 @@ export const MobileNavigation = () => {
           </button>
         </NavLink>
 
-        {/* <NavLink to="/playlist"> */}
+        <NavLink to="/playlist">
           <button type="button" className="btn-icon">
             <img src={lib_icon} className="img30x30" alt="wish_icon" />
           </button>
-        {/* </NavLink> */}
+        </NavLink>
 
-        {/* <NavLink to="/watchlater"> */}
+        <NavLink to="/watchlater">
           <button type="button" className="btn-icon">
             <img src={watch_icon} className="img30x30" alt="category_icon" />
           </button>
-        {/* </NavLink> */}
+        </NavLink>
 
-        {/* <NavLink to="/likedvideo"> */}
+        <NavLink to="/likedvideo">
           <button type="button" className="btn-icon">
             <img src={wish_icon} className="img30x30" alt="cart_icon" />
           </button>
-        {/* </NavLink> */}
+        </NavLink>
       </div>
     </div>
   );

@@ -1,0 +1,91 @@
+.page-head {
+    font-size: var(--txt-225);
+    padding: 1rem;
+    color: var(--truegray200);
+}
+
+.page-width {
+    width: 40%;
+    margin: 0rem auto;
+    padding: 1rem;
+}
+
+  
+.btn-add {
+    border: none;
+    outline: none;
+    background-color: var(--bg-nav);
+    padding: 0.5rem;
+    cursor: pointer;
+}
+  
+.btn-img {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+  
+.btn-txt,
+.txt-play {
+    font-size: var(--txt-175);
+    margin: 0rem 1rem;
+    color: var(--txt-light-secondary);
+}
+  
+.btn-txt {
+    color: #0284c7;
+}
+  
+.item-playlist {
+    position: relative;
+    display: flex;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid gray;
+    width: 60%;
+    /* margin: 0rem auto; */
+    justify-content: space-between;
+}
+  
+.btn-delete {
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    top: 0.25em;
+}
+  
+.img-delete {
+    height: 1rem;
+    width: 1rem;
+}
+  
+.txt-play:hover {
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+  
+.img-play {
+    height: 2rem;
+    width: 2rem;
+    position: relative;
+    top: 0.25em;
+}
+
+@media screen and (max-width: 600px){
+    
+  .page-width {
+    width: auto;
+    padding: 0rem;
+  }
+
+  .item-playlist {
+    display: flex;
+    padding: 0.5rem 1rem;
+    width: auto;
+  }
+
+  .btn-txt,
+  .txt-play {
+    font-size: var(--txt-15);
+  }
+}

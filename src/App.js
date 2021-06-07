@@ -10,6 +10,8 @@ import {VideoPage} from './components/VideoPage'
 import {PrivateRoute} from './components/PrivateRoute'
 import {UserProfile} from './components/private/UserProfile'
 import {LikedVideos} from './components/private/LikedVideos'
+import {Playlist} from './components/private/Playlist'
+import {PlaylistContent} from './components/private/PlaylistContent'
 import {WatchLater} from './components/private/WatchLater'
 import {Footer} from './components/Footer'
 
@@ -28,8 +30,11 @@ function App() {
           <PrivateRoute path="/profile" element={<UserProfile />} />
           <PrivateRoute path="/likedvideo" element={<LikedVideos />} />
           <PrivateRoute path="/watchlater" element={<WatchLater />} />
+          <PrivateRoute path="/playlist" element={<Playlist />} />
           <PrivateRoute path="/likedvideo/:videoId" element={<VideoPage />} />
           <PrivateRoute path="/watchlater/:videoId" element={<VideoPage />} />
+          <PrivateRoute path="/playlist/:playlistId" element={<PlaylistContent />} />
+          <PrivateRoute path="/playlist/:playlistId/:videoId" element={<VideoPage />} />
         </Routes>
       </div>
 
