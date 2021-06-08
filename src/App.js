@@ -1,6 +1,11 @@
 import './App.css'
+import "react-toastify/dist/ReactToastify.css"
+import {useEffect} from 'react'
+import { ToastContainer, toast } from "react-toastify"
 import {Routes, Route} from 'react-router-dom'
 import {useWindowSize} from './context/useWindowSize'
+import { useLibrary } from "./context/LibraryProvider"
+import { ACTIONS } from "./context/libraryReducer"
 import {Navigation} from './components/Navigation'
 import {Home} from './components/Home'
 import {Categories} from './components/Categories'
@@ -17,6 +22,26 @@ import {Footer} from './components/Footer'
 
 function App() {
   const[, width] = useWindowSize();
+
+  const {
+    state: { toastMessage, toastActive },
+    dispatch
+  } = useLibrary();
+
+  useEffect(() => {
+    function notify() {
+      setTimeout(() => {
+        dispatch({ TYPE: ACTIONS.TOGGLE_TOAST, payload: { toggle: false } });
+        toast(`${toastMessage}`, {
+          className: "toast-class",
+          closeButton: true
+        });
+      }, 1000);
+    }
+
+    toastActive && notify();
+  }, [toastActive, dispatch, toastMessage]);
+
   return (
     <div className="App">
       <Navigation/>
@@ -37,6 +62,8 @@ function App() {
           <PrivateRoute path="/playlist/:playlistId/:videoId" element={<VideoPage />} />
         </Routes>
       </div>
+
+      <ToastContainer />
 
       <Footer/>
      {width < 600 && (
