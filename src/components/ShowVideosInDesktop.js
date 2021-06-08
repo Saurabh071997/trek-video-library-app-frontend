@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom";
-import './ShowVideosInDesktop.css'
-import { useLibrary } from "../context/LibraryProvider";
-import { ACTIONS } from "../context/libraryReducer";
-import { ShowVideos } from "./ShowVideos";
+import { Link } from "react-router-dom"
+import "./ShowVideosInDesktop.css"
+import { useLibrary } from "../context/LibraryProvider"
+import { ACTIONS } from "../context/libraryReducer"
+import { ShowVideos } from "./ShowVideos"
+import {Loader} from "./Loader"
+
 
 export const ShowVideosInDesktop = () => {
   const {
-    state: { categoryList, selectedCategory },
+    state: { categoryList, selectedCategory, isLoading },
     dispatch
   } = useLibrary();
 
@@ -14,7 +16,7 @@ export const ShowVideosInDesktop = () => {
     ({ _id }) => _id === selectedCategory
   );
 
-  return (
+  return isLoading ? <Loader/> : (
     <div className="body-container">
       <div className="sidenav">
         <ul>

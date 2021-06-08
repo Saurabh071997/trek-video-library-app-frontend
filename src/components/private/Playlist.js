@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import '../Modal.css'
-import './Playlist.css'
-import { useAuth } from "../../context/AuthProvider";
-import { useLibrary } from "../../context/LibraryProvider";
-import { ACTIONS } from "../../context/libraryReducer";
-// import { Loader } from "../components/Loader";
-import plus_icon from "../../images/plus.svg";
-import video_icon from "../../images/video.svg";
-import cross_color_icon from "../../images/cross-color.svg";
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import "../Modal.css"
+import "./Playlist.css"
+import { useAuth } from "../../context/AuthProvider"
+import { useLibrary } from "../../context/LibraryProvider"
+import { ACTIONS } from "../../context/libraryReducer"
+import { Loader } from "../Loader"
+import plus_icon from "../../images/plus.svg"
+import video_icon from "../../images/video.svg"
+import cross_color_icon from "../../images/cross-color.svg"
 
 export const Playlist = () => {
   const {
@@ -16,7 +16,7 @@ export const Playlist = () => {
   } = useAuth();
 
   const {
-    state: { playlist },
+    state: { playlist, isLoading },
     dispatch,
     handleCreatePlaylist,
     handleRemovePlaylist
@@ -87,7 +87,7 @@ export const Playlist = () => {
     );
   }
 
-  return (
+  return isLoading ? <Loader/> : (
     <div className="page-width">
       {showModal && <PlaylistCreationModal />}
       <div>

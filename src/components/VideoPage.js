@@ -1,12 +1,11 @@
 import { Link, useParams, useNavigate } from "react-router-dom"
 import { useReducer, useState } from "react"
-import './VideoPage.css'
-import './Modal.css'
+import "./VideoPage.css"
+import "./Modal.css"
 import { useWindowSize } from "../context/useWindowSize"
 import { useLibrary } from "../context/LibraryProvider"
 import { useAuth } from "../context/AuthProvider"
-// import { ACTIONS } from "../context/libraryReducer"
-// import { Loader } from "./Loader"
+import { Loader } from "./Loader"
 import { VideoCard } from "../components/VideoCard"
 import watch from "../images/watch_later.svg"
 import watch_color_icon from "../images/watch-color.svg"
@@ -40,7 +39,7 @@ export const VideoOptions = ({ videoId }) => {
   const navigate = useNavigate();
 
   const {
-    state: { likedVideos, watchLaterVideos, playlist },
+    state: { likedVideos, watchLaterVideos, playlist},
     handleAddToLikedVideos,
     handleRemovefromLikedVideos,
     handleAddToWatchLaterVideos,
@@ -459,10 +458,10 @@ export const VideoContent = ({ video }) => {
 export const VideoPage = () => {
   const { videoId } = useParams();
   const {
-    state: { videoList }
+    state: { videoList, isLoading }
   } = useLibrary(); 
 
   const video = videoList?.find(({ _id }) => _id === videoId);
 
-  return <VideoContent video={video} />;
+  return  isLoading ? <Loader/> : <VideoContent video={video} />;
 }

@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import './LikedVideos.css'
-import { useLibrary } from "../../context/LibraryProvider";
-import { ACTIONS } from "../../context/libraryReducer";
-import { VideoCard } from "../VideoCard";
-// import { Loader } from "../components/Loader";
+import { Link } from "react-router-dom"
+import { useEffect } from "react"
+import "./LikedVideos.css"
+import { useLibrary } from "../../context/LibraryProvider"
+import { ACTIONS } from "../../context/libraryReducer"
+import { VideoCard } from "../VideoCard"
+import { Loader } from "../Loader"
 
 export const WatchLater = () => {
   const {
-    state: { watchLaterVideos, videoList },
+    state: { watchLaterVideos, videoList , isLoading },
     dispatch
   } = useLibrary();
 
@@ -22,7 +22,7 @@ export const WatchLater = () => {
       });
   }, [dispatch]);
 
-  return (
+  return isLoading ? <Loader/> : (
     <div className="page-layout">
       <div className="page-head">Watch Later</div>
       {watchLaterVideos?.length > 0 ? (

@@ -1,13 +1,14 @@
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import './LikedVideos.css'
-import { useLibrary } from "../../context/LibraryProvider";
-import { ACTIONS } from "../../context/libraryReducer";
-import { VideoCard } from "../VideoCard";
+import { Link } from "react-router-dom"
+import { useEffect } from "react"
+import "./LikedVideos.css"
+import { useLibrary } from "../../context/LibraryProvider"
+import { ACTIONS } from "../../context/libraryReducer"
+import { VideoCard } from "../VideoCard"
+import {Loader} from "../Loader"
 
 export const LikedVideos = () => {
   const {
-    state: { likedVideos, videoList },
+    state: { likedVideos, videoList, isLoading },
     dispatch
   } = useLibrary();
 
@@ -21,7 +22,7 @@ export const LikedVideos = () => {
       });
   }, [dispatch]);
 
-  return (
+  return isLoading ? <Loader/> : (
     <div className="page-layout">
       <div className="page-head">Liked Videos</div>
       {likedVideos?.length > 0 ? (

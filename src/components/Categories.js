@@ -1,18 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import './Categories.css'
-import { useLibrary } from "../context/LibraryProvider";
-import { ACTIONS } from "../context/libraryReducer";
-// import { Loader } from "./Loader";
+import { useNavigate } from "react-router-dom"
+import "./Categories.css"
+import { useLibrary } from "../context/LibraryProvider"
+import { ACTIONS } from "../context/libraryReducer"
+import { Loader } from "./Loader"
 
 export const Categories = () => {
   const {
-    state: { categoryList},
+    state: { categoryList, isLoading},
     dispatch
   } = useLibrary();
 
   const navigate = useNavigate();
 
-  return (
+  return isLoading ? <Loader/> : (
     <div className="page-layout">
       <div className="page-head">Categories</div>
       <div className="page-container">

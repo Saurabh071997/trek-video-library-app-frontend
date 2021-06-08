@@ -1,20 +1,20 @@
-import { Link } from "react-router-dom";
-import './Home.css'
-import arrow from "../images/right.svg";
-import { useWindowSize } from "../context/useWindowSize";
-// import { useLibrary } from "../context/LibraryProvider";
-// import { Loader } from "./Loader";
+import { Link } from "react-router-dom"
+import "./Home.css"
+import arrow from "../images/right.svg"
+import { useWindowSize } from "../context/useWindowSize"
+import { useLibrary } from "../context/LibraryProvider"
+import { Loader } from "./Loader";
 
 export const Home = () => {
   const [, width] = useWindowSize();
-//   const {
-//     state: { isLoading }
-//   } = useLibrary();
+  const {
+    state: { isLoading }
+  } = useLibrary();
 
   let bg_img =
     "https://www.iesfilmfestival.com/wp-content/uploads/2020/12/sports.jpg";
 
-  return  (
+  return  isLoading ? <Loader/> : (
     <div className="div-home">
       <div className="div-home-img">
         <img src={bg_img} alt="home" className="img-home" />

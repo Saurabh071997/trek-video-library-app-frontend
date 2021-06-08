@@ -1,8 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 import './UserProfile.css'
-import { useAuth } from "../../context/AuthProvider";
-import phone from "../../images/phone-icon.svg";
-import mail_icon from "../../images/mail.svg";
+import { useAuth } from "../../context/AuthProvider"
+import {useLibrary} from '../../context/LibraryProvider'
+import phone from "../../images/phone-icon.svg"
+import mail_icon from "../../images/mail.svg"
+import {Loader} from '../Loader'
 
 
 export const UserProfile = () => {
@@ -11,12 +13,16 @@ export const UserProfile = () => {
     logoutUser
   } = useAuth();
 
+  const {
+    state: { isLoading }
+  } = useLibrary();
+
   let profile_img =
     "https://mir-s3-cdn-cf.behance.net/project_modules/disp/366be133850498.56ba69ac36858.png";
 
   const navigate = useNavigate();
 
-  return (
+  return isLoading ? <Loader/> : (
     <div className="profile-block">
       <div className="profile-img">
         <img src={profile_img} className="user-img" alt="profile-img" />

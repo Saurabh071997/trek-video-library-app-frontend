@@ -1,8 +1,8 @@
 import './Footer.css'
-import twitter from "../images/twitter.svg";
-import linkedin from "../images/linkedin.svg";
-import github from "../images/github.svg";
-import mail from "../images/mail.svg";
+import twitter from "../images/twitter.svg"
+import linkedin from "../images/linkedin.svg"
+import github from "../images/github.svg"
+import mail from "../images/mail.svg"
 
 export const Footer = ()=>{
   return (

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import './LoginPage.css'
-import { useAuth } from "../context/AuthProvider";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import "./LoginPage.css"
+import { useAuth } from "../context/AuthProvider"
 
 export const LoginPage = () => {
   const {

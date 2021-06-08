@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom"
-import './ShowVideos.css'
+import "./ShowVideos.css"
 import { useLibrary } from "../context/LibraryProvider"
 import { VideoCard } from "./VideoCard"
+import {Loader} from "./Loader"
 
 export const getFilteredData = (videoList, selectedCategory) => {
   return videoList.filter(({ _category }) =>
@@ -11,13 +12,13 @@ export const getFilteredData = (videoList, selectedCategory) => {
 
 export const ShowVideos = () => {
   const {
-    state: { videoList, categoryList, selectedCategory }
+    state: { videoList, categoryList, selectedCategory, isLoading }
   } = useLibrary();
 
   const filteredData = getFilteredData(videoList, selectedCategory);
   const category = categoryList.find(({ _id }) => _id === selectedCategory);
 
-  return (
+  return isLoading ? <Loader/> :(
     <div>
       <div className="page-head">{category?.name}</div>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
