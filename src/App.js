@@ -10,6 +10,7 @@ import {Navigation} from './components/Navigation'
 import {Home} from './components/Home'
 import {Categories} from './components/Categories'
 import {LoginPage} from './components/LoginPage'
+import {SignupPage} from './components/SignupPage'
 import {VideoDisplay} from './components/VideoDisplay'
 import {VideoPage} from './components/VideoPage'
 import {PrivateRoute} from './components/PrivateRoute'
@@ -50,6 +51,7 @@ function App() {
           <Route path="/" element = {<Home/>} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element = {<SignupPage/>}/>
           <Route path="/videos" element={<VideoDisplay />} />
           <Route path="/video/:videoId" element={<VideoPage />} />
           <PrivateRoute path="/profile" element={<UserProfile />} />

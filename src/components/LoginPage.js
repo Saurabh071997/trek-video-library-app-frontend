@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "./LoginPage.css"
 import { useAuth } from "../context/AuthProvider"
 
@@ -36,6 +36,9 @@ export const LoginPage = () => {
             <label>Password</label>
           </div>
           <div className="align-center">
+            <div className="page-nav-txt">New User? 
+            <Link to ='/signup'><span className="page-nav-link">Create Account</span></Link>
+            </div>
             <button
               className="btn btn-contained-secondary"
               onClick={() => {

@@ -50,6 +50,23 @@ label {
   
 .align-center {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-nav-txt{
+    font-size:1rem;
+    color:#38BDF8;
+    margin-bottom: 1.25rem;
+}
+
+.page-nav-link{
+    color:#38BDF8;
+    margin-left: 0.5rem;
+}
+
+.page-nav-link:hover{
+    text-decoration: underline;
 }
 
 @media screen and (max-width:600px){
