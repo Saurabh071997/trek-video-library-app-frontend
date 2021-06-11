@@ -2,22 +2,17 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import "../Modal.css"
 import "./Playlist.css"
-import { useAuth } from "../../context/AuthProvider"
 import { useLibrary } from "../../context/LibraryProvider"
-import { ACTIONS } from "../../context/libraryReducer"
 import { Loader } from "../Loader"
 import plus_icon from "../../images/plus.svg"
 import video_icon from "../../images/video.svg"
 import cross_color_icon from "../../images/cross-color.svg"
 
 export const Playlist = () => {
-  const {
-    authState: { currentUser }
-  } = useAuth();
 
   const {
     state: { playlist, isLoading },
-    dispatch,
+    getPlaylist,
     handleCreatePlaylist,
     handleRemovePlaylist
   } = useLibrary();
@@ -25,11 +20,13 @@ export const Playlist = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    let _playlists = JSON.parse(localStorage?.getItem("playlist"));
+    window.scrollTo(0, 0);
+  }, []);
 
-    _playlists?.length > 0 &&
-      dispatch({ TYPE: ACTIONS.SET_PLAYLIST, payload: { _playlists } });
-  }, [dispatch]);
+  useEffect(()=>{
+    getPlaylist();
+   // eslint-disable-next-line
+  },[])
 
   const PlaylistCreationModal = () => {
     const [newPlaylist, setNewPlayList] = useState(null);
@@ -70,7 +67,6 @@ export const Playlist = () => {
               className="modal-btn"
               onClick={() => {
                 handleCreatePlaylist({
-                  userId: currentUser?._id,
                   playlistname: newPlaylist
                 });
                 setShowModal(false);
@@ -128,7 +124,6 @@ export const Playlist = () => {
                     className="btn-delete"
                     onClick={() => {
                       handleRemovePlaylist({
-                        userId: currentUser?._id,
                         playlistId: _id
                       });
                     }}

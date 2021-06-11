@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import {useEffect} from 'react'
 import "./ShowVideos.css"
 import { useLibrary } from "../context/LibraryProvider"
 import { VideoCard } from "./VideoCard"
@@ -18,14 +19,18 @@ export const ShowVideos = () => {
   const filteredData = getFilteredData(videoList, selectedCategory);
   const category = categoryList.find(({ _id }) => _id === selectedCategory);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return isLoading ? <Loader/> :(
     <div>
       <div className="page-head">{category?.name}</div>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {filteredData.map((videoItem) => {
           return (
-            <div className="card-margin">
-              <Link to={`/video/${videoItem._id}`} key={videoItem._id} >
+            <div className="card-margin" key={videoItem._id}>
+              <Link to={`/video/${videoItem._id}`}  >
                 <VideoCard video={videoItem} />
               </Link>
             </div>

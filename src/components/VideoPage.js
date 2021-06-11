@@ -1,5 +1,5 @@
 import { Link, useParams, useNavigate } from "react-router-dom"
-import { useReducer, useState } from "react"
+import { useReducer, useState, useEffect} from "react"
 import "./VideoPage.css"
 import "./Modal.css"
 import { useWindowSize } from "../context/useWindowSize"
@@ -32,7 +32,7 @@ export const modalReducer = (state, action) => {
 
 export const VideoOptions = ({ videoId }) => {
   const {
-    authState: { userLoggedIn, currentUser }
+    authState: { accessToken }
   } = useAuth();
 
   const { playlistId } = useParams();
@@ -167,7 +167,6 @@ export const VideoOptions = ({ videoId }) => {
                   setPlaylistError(true);
                 } else {
                   handleAddVideoToPlaylist({
-                    userId: currentUser?._id,
                     playlistId: currentPlaylist?.playlistId,
                     playlistname: currentPlaylist?.playlistName,
                     videoId: videoId
@@ -269,7 +268,7 @@ export const VideoOptions = ({ videoId }) => {
           title="Add to Playlist"
           className="btn-icon margin-025"
           onClick={() => {
-            if (userLoggedIn) {
+            if (accessToken) {
               modalDispatch({ TYPE: "SHOW_PLAYLIST_MODAL" });
             } else {
               modalDispatch({ TYPE: "SHOW_LOGIN_MODAL" });
@@ -279,16 +278,15 @@ export const VideoOptions = ({ videoId }) => {
           <img src={lib_icon} className="img25x25" alt="category_icon" />
         </button>
 
-        {userLoggedIn &&
+        {accessToken &&
         watchLaterVideos?.find(({ __video }) => __video === videoId) ? (
           <button
             type="button"
             className="btn-icon margin-025"
             title="watch later"
             onClick={() => {
-              if (userLoggedIn) {
+              if (accessToken) {
                 handleRemovefromWatchLaterVideos({
-                  userId: currentUser?._id,
                   videoId
                 });
               } else {
@@ -308,9 +306,8 @@ export const VideoOptions = ({ videoId }) => {
             className="btn-icon margin-025"
             title="watch later"
             onClick={() => {
-              if (userLoggedIn) {
+              if (accessToken) {
                 handleAddToWatchLaterVideos({
-                  userId: currentUser?._id,
                   videoId
                 });
               } else {
@@ -322,16 +319,15 @@ export const VideoOptions = ({ videoId }) => {
           </button>
         )}
 
-        {userLoggedIn &&
+        {accessToken &&
         likedVideos?.find(({ __video }) => __video === videoId) ? (
           <button
             type="button"
             className="btn-icon margin-025"
             title="liked"
             onClick={() => {
-              if (userLoggedIn) {
+              if (accessToken) {
                 handleRemovefromLikedVideos({
-                  userId: currentUser?._id,
                   videoId
                 });
               } else {
@@ -351,8 +347,8 @@ export const VideoOptions = ({ videoId }) => {
             className="btn-icon margin-025"
             title="liked"
             onClick={() => {
-              if (userLoggedIn) {
-                handleAddToLikedVideos({ userId: currentUser?._id, videoId });
+              if (accessToken) {
+                handleAddToLikedVideos({ videoId });
               } else {
                 modalDispatch({ TYPE: "SHOW_LOGIN_MODAL" });
               }
@@ -369,7 +365,6 @@ export const VideoOptions = ({ videoId }) => {
             className="btn-icon margin-025"
             onClick={() => {
               handleRemoveVideoFromPlaylist({
-                userId: currentUser?._id,
                 playlistId,
                 videoId
               });
@@ -442,9 +437,11 @@ export const VideoContent = ({ video }) => {
               videoItem._category === video?._category
             ) {
               return (
-                <Link to={`/video/${videoItem._id}`} key={videoItem._id}>
+                <div key={videoItem._id} className="width300">
+                <Link to={`/video/${videoItem._id}`} >
                   <VideoCard video={videoItem} />
                 </Link>
+                </div>
               );
             }
             return null;
@@ -460,6 +457,10 @@ export const VideoPage = () => {
   const {
     state: { videoList, isLoading }
   } = useLibrary(); 
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const video = videoList?.find(({ _id }) => _id === videoId);
 

@@ -6,14 +6,18 @@ import {
 } from "react";
 import axios from "axios";
 import { ACTIONS, libraryReducer } from "./libraryReducer";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "./AuthProvider"
+import {useToast} from "./ToastProvider"
 
 export const LibraryContext = createContext();
 
 export const LibraryProvider = ({ children }) => {
+
   const {
-    authState: { currentUser }
+    authState: { accessToken }, handleError
   } = useAuth();
+
+  const {toastDispatch} = useToast();
 
   const [state, dispatch] = useReducer(libraryReducer, {
     categoryList: [],
@@ -22,9 +26,8 @@ export const LibraryProvider = ({ children }) => {
     watchLaterVideos: [],
     likedVideos: [],
     selectedCategory: null,
-    isLoading: false,
-    toastActive: false,
-    toastMessage: ""
+    isLoading: false
+
   });
 
   useEffect(() => {
@@ -32,7 +35,7 @@ export const LibraryProvider = ({ children }) => {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
       try {
         let response = await axios.get(
-          "https://trek-video-lib.saurabhkamboj.repl.co/categories"
+          "https://trek-video-lib-backend.saurabhkamboj.repl.co/categories"
         );
 
         if (response.status === 200) {
@@ -54,7 +57,7 @@ export const LibraryProvider = ({ children }) => {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
       try {
         let response = await axios.get(
-          "https://trek-video-lib.saurabhkamboj.repl.co/videos"
+          "https://trek-video-lib-backend.saurabhkamboj.repl.co/videos"
         );
 
         if (response.status === 200) {
@@ -71,127 +74,127 @@ export const LibraryProvider = ({ children }) => {
     })();
   }, []);
 
-  useEffect(() => {
-    async function getLikedVideos() {
-      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
-      try {
-        let response = await axios.get(
-          `https://trek-video-lib.saurabhkamboj.repl.co/likedvideo/${currentUser?._id}`
-        );
+  useEffect(()=>{
+    accessToken && getWatchLaterVideos();
+    accessToken && getLikedVideos()
+    // eslint-disable-next-line
+  },[accessToken])
 
-        if (response.status === 200) {
-          let {
-            data: { data }
-          } = response;
-          let { videoList } = data;
-
-          localStorage?.setItem("likedVideos", JSON.stringify(videoList));
-
-          dispatch({
-            TYPE: ACTIONS.SET_LIKED_VIDEOS,
-            payload: { videoList }
-          });
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
-      }
-    }
-
-    currentUser && getLikedVideos();
-  }, [currentUser]);
-
-  useEffect(() => {
-    async function getWatchLaterVideos() {
-      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
-      try {
-        let response = await axios.get(
-          `https://trek-video-lib.saurabhkamboj.repl.co/watchlater/${currentUser?._id}`
-        );
-
-        if (response.status === 200) {
-          let {
-            data: { data }
-          } = response;
-          let { videoList } = data;
-
-          localStorage?.setItem("watchLaterVideos", JSON.stringify(videoList));
-
-          dispatch({
-            TYPE: ACTIONS.SET_WATCH_LATER_VIDEOS,
-            payload: { videoList }
-          });
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
-      }
-    }
-
-    currentUser && getWatchLaterVideos();
-  }, [currentUser]);
-
-  useEffect(() => {
-    async function getPlaylist() {
-      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
-      try {
-        let response = await axios.get(
-          `https://trek-video-lib.saurabhkamboj.repl.co/playlist/${currentUser?._id}`
-        );
-        if (response.status === 200) {
-          let {
-            data: { data }
-          } = response;
-          let { _playlists } = data;
-          localStorage?.setItem("playlist", JSON.stringify(_playlists));
-          dispatch({ TYPE: ACTIONS.SET_PLAYLIST, payload: { _playlists } });
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
-      }
-    }
-
-    currentUser && getPlaylist();
-  }, [currentUser]);
-
-  async function handleAddToLikedVideos({ userId, videoId }) {
+  async function getLikedVideos() {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
-      let response = await axios.post(
-        `https://trek-video-lib.saurabhkamboj.repl.co/likedvideo/${userId}`,
-        {
-          videoId: videoId
-        }
+      let response = await axios.get(
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
+        {headers:{authorization: `Bearer ${accessToken}`}}
       );
 
-      if (response.status === 201 || response.status === 200) {
-        dispatch({ TYPE: ACTIONS.ADD_TO_LIKED_VIDEOS, payload: { videoId } });
+      if (response.status === 200) {
+        let {
+          data: { data }
+        } = response;
+        let { videoList } = data;
+
+        // localStorage?.setItem("likedVideos", JSON.stringify(videoList));
 
         dispatch({
-          TYPE: ACTIONS.TOGGLE_TOAST,
-          payload: { toggle: true, message: "Added to liked videos" }
+          TYPE: ACTIONS.SET_LIKED_VIDEOS,
+          payload: { videoList }
         });
       }
     } catch (err) {
-      console.error(err);
+      handleError(err)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
-  async function handleRemovefromLikedVideos({ userId, videoId }) {
+  async function getWatchLaterVideos() {
+    dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
+    try {
+      let response = await axios.get(
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
+        {headers:{authorization: `Bearer ${accessToken}`}}
+      );
+
+      if (response.status === 200) {
+        let {
+          data: { data }
+        } = response;
+        let { videoList } = data;
+
+        // localStorage?.setItem("watchLaterVideos", JSON.stringify(videoList));
+
+        dispatch({
+          TYPE: ACTIONS.SET_WATCH_LATER_VIDEOS,
+          payload: { videoList }
+        });
+      }
+    } catch (err) {
+      handleError(err)
+    } finally {
+      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
+    }
+  }
+
+  async function getPlaylist() {
+    dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
+    try {
+      let response = await axios.get(
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+        {headers:{authorization: `Bearer ${accessToken}`}}
+      );
+      if (response.status === 200) {
+        let {
+          data: { data }
+        } = response;
+        let { _playlists } = data;
+        // localStorage?.setItem("playlist", JSON.stringify(_playlists));
+        dispatch({ TYPE: ACTIONS.SET_PLAYLIST, payload: { _playlists } });
+      }
+    } catch (err) {
+      handleError(err);
+      
+    } finally {
+      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
+    }
+  }
+
+
+  async function handleAddToLikedVideos({ videoId }) {
+    dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
+    try {
+      let response = await axios.post(
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
+        {
+          videoId: videoId
+        },{headers:{authorization: `Bearer ${accessToken}`}}
+      );
+
+      if (response.status === 201 || response.status === 200) {
+        dispatch({ TYPE: ACTIONS.ADD_TO_LIKED_VIDEOS, payload: { videoId } });
+
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
+          payload: { toggle: true, message: "Added to liked videos" }
+        });
+      }
+    } catch (err) {
+      handleError(err)
+    } finally {
+      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
+    }
+  }
+
+  async function handleRemovefromLikedVideos({ videoId }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.delete(
-        `https://trek-video-lib.saurabhkamboj.repl.co/likedvideo/${userId}`,
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
         {
           data: {
             videoId: videoId
-          }
+          },
+          headers:{ authorization: `Bearer ${accessToken}`}
         }
       );
 
@@ -201,26 +204,25 @@ export const LibraryProvider = ({ children }) => {
           payload: { videoId }
         });
 
-        dispatch({
-          TYPE: ACTIONS.TOGGLE_TOAST,
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
           payload: { toggle: true, message: "Removed from liked videos" }
         });
       }
     } catch (err) {
-      console.error(err);
+      handleError(err)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
-  async function handleAddToWatchLaterVideos({ userId, videoId }) {
+  async function handleAddToWatchLaterVideos({ videoId }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.post(
-        `https://trek-video-lib.saurabhkamboj.repl.co/watchlater/${userId}`,
-        {
-          videoId: videoId
-        }
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
+        { videoId: videoId },
+        {headers:{authorization: `Bearer ${accessToken}`}}
       );
 
       if (response.status === 201 || response.status === 200) {
@@ -229,27 +231,28 @@ export const LibraryProvider = ({ children }) => {
           payload: { videoId }
         });
 
-        dispatch({
-          TYPE: ACTIONS.TOGGLE_TOAST,
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
           payload: { toggle: true, message: "Added to Watch Later" }
         });
       }
     } catch (err) {
-      console.error(err);
+      handleError(err)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
-  async function handleRemovefromWatchLaterVideos({ userId, videoId }) {
+  async function handleRemovefromWatchLaterVideos({ videoId }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.delete(
-        `https://trek-video-lib.saurabhkamboj.repl.co/watchlater/${userId}`,
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
         {
           data: {
             videoId: videoId
-          }
+          },
+          headers:{ authorization: `Bearer ${accessToken}`}
         }
       );
 
@@ -259,27 +262,28 @@ export const LibraryProvider = ({ children }) => {
           payload: { videoId }
         });
 
-        dispatch({
-          TYPE: ACTIONS.TOGGLE_TOAST,
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
           payload: { toggle: true, message: "Removed from Watch Later" }
         });
       }
     } catch (err) {
-      console.error(err);
+      handleError(err)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
-  async function handleCreatePlaylist({ userId, playlistname }) {
+  async function handleCreatePlaylist({ playlistname }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.post(
-        `https://trek-video-lib.saurabhkamboj.repl.co/playlist/${userId}`,
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
         {
           playlistname: playlistname,
           action: "CREATE_PLAYLIST"
-        }
+        }, 
+        {headers:{authorization: `Bearer ${accessToken}`}}
       );
 
       if (response.status === 201) {
@@ -287,31 +291,32 @@ export const LibraryProvider = ({ children }) => {
           data: { data }
         } = response;
         let { _playlists } = data;
-        localStorage?.setItem("playlist", JSON.stringify(_playlists));
+        // localStorage?.setItem("playlist", JSON.stringify(_playlists));
 
         dispatch({ TYPE: ACTIONS.SET_PLAYLIST, payload: { _playlists } });
 
-        dispatch({
-          TYPE: ACTIONS.TOGGLE_TOAST,
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
           payload: { toggle: true, message: `${playlistname} created` }
         });
       }
     } catch (err) {
-      console.error(err);
+      handleError(err)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
-  async function handleRemovePlaylist({ userId, playlistId }) {
+  async function handleRemovePlaylist({ playlistId }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.delete(
-        `https://trek-video-lib.saurabhkamboj.repl.co/playlist/${userId}`,
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
         {
           data: {
             playlistId: playlistId
-          }
+          },
+          headers:{authorization: `Bearer ${accessToken}`}
         }
       );
 
@@ -320,24 +325,23 @@ export const LibraryProvider = ({ children }) => {
           data: { data }
         } = response;
         let { _playlists } = data;
-        localStorage?.setItem("playlist", JSON.stringify(_playlists));
+        // localStorage?.setItem("playlist", JSON.stringify(_playlists));
 
         dispatch({ TYPE: ACTIONS.SET_PLAYLIST, payload: { _playlists } });
 
-        dispatch({
-          TYPE: ACTIONS.TOGGLE_TOAST,
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
           payload: { toggle: true, message: `playlist deleted successfully` }
         });
       }
     } catch (err) {
-      console.error(err);
+      handleError(err)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
   async function handleAddVideoToPlaylist({
-    userId,
     playlistId,
     playlistname,
     videoId
@@ -348,13 +352,14 @@ export const LibraryProvider = ({ children }) => {
         playlistId !== undefined ? "ADD_VIDEO" : "CREATE_PLAYLIST_ADD_VIDEO";
 
       let response = await axios.post(
-        `https://trek-video-lib.saurabhkamboj.repl.co/playlist/${userId}`,
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
         {
           playlistId: playlistId,
           playlistname: playlistname,
           videoId: videoId,
           action: action
-        }
+        },
+        {headers:{authorization: `Bearer ${accessToken}`}}
       );
 
       if (response.status === 200 || response.status === 201) {
@@ -363,12 +368,12 @@ export const LibraryProvider = ({ children }) => {
         } = response;
         let { _playlists } = data;
 
-        localStorage?.setItem("playlist", JSON.stringify(_playlists));
+        // localStorage?.setItem("playlist", JSON.stringify(_playlists));
 
         dispatch({ TYPE: ACTIONS.SET_PLAYLIST, payload: { _playlists } });
 
-        dispatch({
-          TYPE: ACTIONS.TOGGLE_TOAST,
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
           payload: {
             toggle: true,
             message: `Video added to playlist successfully`
@@ -376,26 +381,26 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      console.error(err);
+      handleError(err)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
   async function handleRemoveVideoFromPlaylist({
-    userId,
     playlistId,
     videoId
   }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.post(
-        `https://trek-video-lib.saurabhkamboj.repl.co/playlist/${userId}`,
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
         {
           playlistId: playlistId,
           videoId: videoId,
           action: "REMOVE_VIDEO"
-        }
+        },
+        {headers:{authorization: `Bearer ${accessToken}`}}
       );
 
       if (response.status === 200) {
@@ -404,12 +409,12 @@ export const LibraryProvider = ({ children }) => {
         } = response;
         let { _playlists } = data;
 
-        localStorage?.setItem("playlist", JSON.stringify(_playlists));
+        // localStorage?.setItem("playlist", JSON.stringify(_playlists));
 
         dispatch({ TYPE: ACTIONS.SET_PLAYLIST, payload: { _playlists } });
 
-        dispatch({
-          TYPE: ACTIONS.TOGGLE_TOAST,
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
           payload: {
             toggle: true,
             message: `Video removed successfully`
@@ -417,7 +422,7 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      console.error(err);
+      handleError(err)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -428,6 +433,9 @@ export const LibraryProvider = ({ children }) => {
       value={{
         state,
         dispatch,
+        getLikedVideos,
+        getWatchLaterVideos,
+        getPlaylist,
         handleAddToLikedVideos,
         handleRemovefromLikedVideos,
         handleAddToWatchLaterVideos,

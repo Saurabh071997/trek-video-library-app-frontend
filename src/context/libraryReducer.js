@@ -9,8 +9,7 @@ export const ACTIONS = {
     REMOVE_FROM_LIKED_VIDEOS: "REMOVE_FROM_LIKED_VIDEOS",
     ADD_TO_WATCH_LATER_VIDEOS: "ADD_TO_WATCH_LATER_VIDEOS",
     REMOVE_FROM_WATCH_LATER_VIDEOS: "REMOVE_FROM_WATCH_LATER_VIDEOS",
-    TOGGLE_LOADER: "TOGGLE_LOADER",
-    TOGGLE_TOAST: "TOGGLE_TOAST"
+    TOGGLE_LOADER: "TOGGLE_LOADER"
   };
   
   export const libraryReducer = (state, action) => {
@@ -35,7 +34,7 @@ export const ACTIONS = {
           ...state,
           likedVideos: [...state.likedVideos, { __video: action.payload.videoId }]
         };
-        localStorage?.setItem("likedVideos", JSON.stringify(state.likedVideos));
+
         return state;
   
       case "REMOVE_FROM_LIKED_VIDEOS":
@@ -47,7 +46,6 @@ export const ACTIONS = {
           )
         };
   
-        localStorage?.setItem("likedVideos", JSON.stringify(state.likedVideos));
         return state;
   
       case "SET_WATCH_LATER_VIDEOS":
@@ -61,10 +59,7 @@ export const ACTIONS = {
             { __video: action.payload.videoId }
           ]
         };
-        localStorage?.setItem(
-          "watchLaterVideos",
-          JSON.stringify(state.watchLaterVideos)
-        );
+
         return state;
   
       case "REMOVE_FROM_WATCH_LATER_VIDEOS":
@@ -75,21 +70,12 @@ export const ACTIONS = {
             ({ __video }) => __video != action.payload.videoId
           )
         };
-        localStorage?.setItem(
-          "watchLaterVideos",
-          JSON.stringify(state.watchLaterVideos)
-        );
+
         return state;
   
       case "TOGGLE_LOADER":
         return { ...state, isLoading: action.payload.toggle };
   
-      case "TOGGLE_TOAST":
-        return {
-          ...state,
-          toastActive: action.payload.toggle,
-          toastMessage: action.payload.message
-        };
       default:
         return state;
     }

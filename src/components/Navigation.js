@@ -36,7 +36,7 @@ function DisplayProfile() {
 
 export const DesktopNavigation =()=> {
   const {
-    authState: { userLoggedIn }
+    authState: { accessToken }
   } = useAuth();
   return (
     <div style={{ margin: "0rem", padding: "0rem" }}>
@@ -91,7 +91,7 @@ export const DesktopNavigation =()=> {
           </NavLink>
 
 
-          {userLoggedIn ? <DisplayProfile /> : <SignIn />}
+          {accessToken ? <DisplayProfile /> : <SignIn />}
         </div>
       </div>
     </div>
@@ -100,14 +100,14 @@ export const DesktopNavigation =()=> {
 
 export const MobileNavigation = () => {
   const {
-    authState: { userLoggedIn }
+    authState: { accessToken }
   } = useAuth();
   return (
     <div className="nav-mob">
       <div className="nav-mob-top">
         <div className="nav-mob-logo">Trek</div>
 
-        {userLoggedIn ? <DisplayProfile /> : <SignIn />}
+        {accessToken  ? <DisplayProfile /> : <SignIn />}
       </div>
 
       <div className="nav-mob-bottom">

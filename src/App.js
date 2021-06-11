@@ -4,8 +4,9 @@ import {useEffect} from 'react'
 import { ToastContainer, toast } from "react-toastify"
 import {Routes, Route} from 'react-router-dom'
 import {useWindowSize} from './context/useWindowSize'
-import { useLibrary } from "./context/LibraryProvider"
-import { ACTIONS } from "./context/libraryReducer"
+// import { useLibrary } from "./context/LibraryProvider"
+import {useToast} from './context/ToastProvider'
+// import { ACTIONS } from "./context/libraryReducer"
 import {Navigation} from './components/Navigation'
 import {Home} from './components/Home'
 import {Categories} from './components/Categories'
@@ -24,15 +25,12 @@ import {Footer} from './components/Footer'
 function App() {
   const[, width] = useWindowSize();
 
-  const {
-    state: { toastMessage, toastActive },
-    dispatch
-  } = useLibrary();
+  const {toastState:{ toastActive, toastMessage}, toastDispatch} = useToast()  
 
   useEffect(() => {
     function notify() {
       setTimeout(() => {
-        dispatch({ TYPE: ACTIONS.TOGGLE_TOAST, payload: { toggle: false } });
+        toastDispatch({ TYPE: "TOGGLE_TOAST", payload: { toggle: false } });
         toast(`${toastMessage}`, {
           className: "toast-class",
           closeButton: true
@@ -41,7 +39,7 @@ function App() {
     }
 
     toastActive && notify();
-  }, [toastActive, dispatch, toastMessage]);
+  }, [toastActive, toastDispatch, toastMessage]);
 
   return (
     <div className="App">

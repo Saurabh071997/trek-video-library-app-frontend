@@ -2,25 +2,24 @@ import { Link } from "react-router-dom"
 import { useEffect } from "react"
 import "./LikedVideos.css"
 import { useLibrary } from "../../context/LibraryProvider"
-import { ACTIONS } from "../../context/libraryReducer"
 import { VideoCard } from "../VideoCard"
 import { Loader } from "../Loader"
 
 export const WatchLater = () => {
   const {
     state: { watchLaterVideos, videoList , isLoading },
-    dispatch
+    getWatchLaterVideos,getLikedVideos
   } = useLibrary();
 
   useEffect(() => {
-    let videoList = JSON.parse(localStorage?.getItem("watchLaterVideos"));
+    window.scrollTo(0, 0);
+  }, []);
 
-    videoList?.length > 0 &&
-      dispatch({
-        TYPE: ACTIONS.SET_WATCH_LATER_VIDEOS,
-        payload: { videoList }
-      });
-  }, [dispatch]);
+  useEffect(()=>{
+    getWatchLaterVideos();
+    getLikedVideos()
+    // eslint-disable-next-line
+  },[])
 
   return isLoading ? <Loader/> : (
     <div className="page-layout">

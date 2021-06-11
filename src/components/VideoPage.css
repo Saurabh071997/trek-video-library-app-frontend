@@ -181,6 +181,10 @@
     
     .video-sub-block-content-x {
         display: flex;
+        flex-direction: row;
+        /* flex-shrink: 0;
+        flex-basis: 100%;
+        flex-grow: 1; */
         overflow-x: scroll;
     }
     
@@ -194,6 +198,14 @@
     
     .video-sub-block-content-x::-webkit-scrollbar-thumb {
         background: var(--truegray600);
+    }
+
+    .width300{
+        width:100%;
+        margin:0rem auto;
+        flex-shrink: 0;
+        flex-basis: 100%;
+        flex-grow: 1;
     }
     
 }

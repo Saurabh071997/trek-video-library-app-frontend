@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import "./LoginPage.css"
 import { useAuth } from "../context/AuthProvider"
 
@@ -9,8 +9,11 @@ export const LoginPage = () => {
   } = useAuth();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  let navigate = useNavigate();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+ 
   return (
     <>
       <div className="component-head">Login</div>
@@ -43,7 +46,6 @@ export const LoginPage = () => {
               className="btn btn-contained-secondary"
               onClick={() => {
                 loginUserWithCredentials(email, password);
-                navigate("/");
               }}
             >
               Login

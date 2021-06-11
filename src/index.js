@@ -5,14 +5,17 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from 'react-router-dom'
 import {LibraryProvider} from './context/LibraryProvider'
 import {AuthProvider} from './context/AuthProvider'
+import {ToastProvider} from './context/ToastProvider'
 
 ReactDOM.render(
   <Router>
-    <AuthProvider>
-      <LibraryProvider>
-        <App />
-      </LibraryProvider>
-    </AuthProvider>
+    <ToastProvider>
+      <AuthProvider>
+        <LibraryProvider>
+          <App />
+        </LibraryProvider>
+      </AuthProvider>
+    </ToastProvider>
   </Router>,
   document.getElementById('root')
 );

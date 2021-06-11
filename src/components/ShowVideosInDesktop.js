@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { useEffect } from "react"
 import "./ShowVideosInDesktop.css"
 import { useLibrary } from "../context/LibraryProvider"
 import { ACTIONS } from "../context/libraryReducer"
@@ -15,6 +16,10 @@ export const ShowVideosInDesktop = () => {
   let currentCategory = categoryList?.find(
     ({ _id }) => _id === selectedCategory
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return isLoading ? <Loader/> : (
     <div className="body-container">

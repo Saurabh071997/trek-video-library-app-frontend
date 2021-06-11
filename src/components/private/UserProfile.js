@@ -5,12 +5,13 @@ import {useLibrary} from '../../context/LibraryProvider'
 import phone from "../../images/phone-icon.svg"
 import mail_icon from "../../images/mail.svg"
 import {Loader} from '../Loader'
+import { useEffect } from "react"
 
 
 export const UserProfile = () => {
   const {
     authState: { currentUser },
-    logoutUser
+    logoutUser, getUserDetails
   } = useAuth();
 
   const {
@@ -21,6 +22,15 @@ export const UserProfile = () => {
     "https://mir-s3-cdn-cf.behance.net/project_modules/disp/366be133850498.56ba69ac36858.png";
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(()=>{
+    getUserDetails();
+    // eslint-disable-next-line
+  },[])
 
   return isLoading ? <Loader/> : (
     <div className="profile-block">
