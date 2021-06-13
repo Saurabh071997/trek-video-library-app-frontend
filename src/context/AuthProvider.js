@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext,useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useToast } from "./ToastProvider";
@@ -15,6 +15,42 @@ function setupAuthHeaderForServiceCalls(token) {
   delete axios.defaults.headers.common["Authorization"];
 }
 
+function setupAuthExceptionHandler(logoutUser, navigate, toastDispatch) {
+  const UNAUTHORIZED = 401;
+  const FORBIDDEN = 403;
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error?.response?.status === UNAUTHORIZED) {
+        console.log("line 25 exceptionhandler 401 ")
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
+          payload: { toggle: true, message: "Unauthorised Access" },
+        });
+        logoutUser();
+        navigate("/login");
+      }else if (error?.response?.status === FORBIDDEN) {
+        console.log("line 33 exceptionhandler 403 ")
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
+          payload: { toggle: true, message: "User Session Expired" },
+        });
+        logoutUser();
+        navigate("/login");
+      }else {
+        console.log("line 41 exceptionhandler other error ")
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
+          payload: { toggle: true, message: "NetWork Failure" },
+        });
+        console.error(error);
+        navigate('/error');
+      }
+
+      return Promise.reject(error);
+    }
+  );
+}
 
 
 export const AuthProvider = ({ children }) => {
@@ -36,6 +72,11 @@ export const AuthProvider = ({ children }) => {
     currentUser: null,
     accessToken: savedToken,
   });
+
+  useEffect(()=>{
+    authState?.accessToken && setupAuthExceptionHandler(logoutUser, navigate, toastDispatch)
+    // eslint-disable-next-line
+  },[])
 
 
   function handleError(err) {
@@ -82,7 +123,9 @@ export const AuthProvider = ({ children }) => {
         setAuthState((authState) => ({ ...authState, currentUser: data }));
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     }
   }
 
@@ -102,6 +145,7 @@ export const AuthProvider = ({ children }) => {
         } = response;
         
         setupAuthHeaderForServiceCalls(accessToken)
+        // setupAuthExceptionHandler(logoutUser, navigate, toastDispatch)
 
         setAuthState((authState) => ({
           ...authState,
@@ -146,6 +190,7 @@ export const AuthProvider = ({ children }) => {
         navigate("/login");
       }
     } catch (err) {
+      console.log("in signup catch")
       if (err?.response?.status === 409) {
         toastDispatch({
           TYPE: "TOGGLE_TOAST",
@@ -187,8 +232,9 @@ export const AuthProvider = ({ children }) => {
         navigate("/profile");
       }
     } catch (err) {
-      handleError(err);
-      // console.error(err)
+      // handleError(err);
+      console.log("now in catch")
+      console.log(err?.response)
     }
   }
 

@@ -14,7 +14,7 @@ export const LibraryContext = createContext();
 export const LibraryProvider = ({ children }) => {
 
   const {
-    authState: { accessToken }, handleError
+    authState: { accessToken }
   } = useAuth();
 
   const {toastDispatch} = useToast();
@@ -106,7 +106,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -138,7 +140,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -165,7 +169,9 @@ export const LibraryProvider = ({ children }) => {
         dispatch({ TYPE: ACTIONS.SET_PLAYLIST, payload: { _playlists } });
       }
     } catch (err) {
-      handleError(err);
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response);
       
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
@@ -199,7 +205,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -239,7 +247,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -271,7 +281,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -313,7 +325,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -354,7 +368,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -397,7 +413,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -453,7 +471,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
@@ -503,7 +523,9 @@ export const LibraryProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      handleError(err)
+      // handleError(err)
+      console.log("now in catch")
+      console.log(err?.response)
     } finally {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
