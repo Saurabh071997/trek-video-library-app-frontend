@@ -83,9 +83,13 @@ export const LibraryProvider = ({ children }) => {
   async function getLikedVideos() {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.get(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
+      //   {headers:{authorization: `Bearer ${accessToken}`}}
+      // );
+
       let response = await axios.get(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
-        {headers:{authorization: `Bearer ${accessToken}`}}
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`
       );
 
       if (response.status === 200) {
@@ -111,9 +115,13 @@ export const LibraryProvider = ({ children }) => {
   async function getWatchLaterVideos() {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.get(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
+      //   {headers:{authorization: `Bearer ${accessToken}`}}
+      // );
+
       let response = await axios.get(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
-        {headers:{authorization: `Bearer ${accessToken}`}}
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`
       );
 
       if (response.status === 200) {
@@ -139,10 +147,15 @@ export const LibraryProvider = ({ children }) => {
   async function getPlaylist() {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.get(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+      //   {headers:{authorization: `Bearer ${accessToken}`}}
+      // );
+
       let response = await axios.get(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
-        {headers:{authorization: `Bearer ${accessToken}`}}
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`
       );
+
       if (response.status === 200) {
         let {
           data: { data }
@@ -163,11 +176,18 @@ export const LibraryProvider = ({ children }) => {
   async function handleAddToLikedVideos({ videoId }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.post(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
+      //   {
+      //     videoId: videoId
+      //   },{headers:{authorization: `Bearer ${accessToken}`}}
+      // );
+
       let response = await axios.post(
         `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
         {
           videoId: videoId
-        },{headers:{authorization: `Bearer ${accessToken}`}}
+        }
       );
 
       if (response.status === 201 || response.status === 200) {
@@ -188,13 +208,22 @@ export const LibraryProvider = ({ children }) => {
   async function handleRemovefromLikedVideos({ videoId }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.delete(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
+      //   {
+      //     data: {
+      //       videoId: videoId
+      //     },
+      //     headers:{ authorization: `Bearer ${accessToken}`}
+      //   }
+      // );
+
       let response = await axios.delete(
         `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
         {
           data: {
             videoId: videoId
-          },
-          headers:{ authorization: `Bearer ${accessToken}`}
+          }
         }
       );
 
@@ -219,10 +248,15 @@ export const LibraryProvider = ({ children }) => {
   async function handleAddToWatchLaterVideos({ videoId }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.post(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
+      //   { videoId: videoId },
+      //   {headers:{authorization: `Bearer ${accessToken}`}}
+      // );
+
       let response = await axios.post(
         `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
-        { videoId: videoId },
-        {headers:{authorization: `Bearer ${accessToken}`}}
+        { videoId: videoId }
       );
 
       if (response.status === 201 || response.status === 200) {
@@ -246,15 +280,26 @@ export const LibraryProvider = ({ children }) => {
   async function handleRemovefromWatchLaterVideos({ videoId }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.delete(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
+      //   {
+      //     data: {
+      //       videoId: videoId
+      //     },
+      //     headers:{ authorization: `Bearer ${accessToken}`}
+      //   }
+      // );
+
       let response = await axios.delete(
         `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
         {
           data: {
             videoId: videoId
-          },
-          headers:{ authorization: `Bearer ${accessToken}`}
+          }
         }
       );
+
+
 
       if (response.status === 200) {
         dispatch({
@@ -277,13 +322,21 @@ export const LibraryProvider = ({ children }) => {
   async function handleCreatePlaylist({ playlistname }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.post(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+      //   {
+      //     playlistname: playlistname,
+      //     action: "CREATE_PLAYLIST"
+      //   }, 
+      //   {headers:{authorization: `Bearer ${accessToken}`}}
+      // );
+
       let response = await axios.post(
         `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
         {
           playlistname: playlistname,
           action: "CREATE_PLAYLIST"
-        }, 
-        {headers:{authorization: `Bearer ${accessToken}`}}
+        }
       );
 
       if (response.status === 201) {
@@ -310,13 +363,22 @@ export const LibraryProvider = ({ children }) => {
   async function handleRemovePlaylist({ playlistId }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.delete(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+      //   {
+      //     data: {
+      //       playlistId: playlistId
+      //     },
+      //     headers:{authorization: `Bearer ${accessToken}`}
+      //   }
+      // );
+
       let response = await axios.delete(
         `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
         {
           data: {
             playlistId: playlistId
-          },
-          headers:{authorization: `Bearer ${accessToken}`}
+          }
         }
       );
 
@@ -351,6 +413,17 @@ export const LibraryProvider = ({ children }) => {
       let action =
         playlistId !== undefined ? "ADD_VIDEO" : "CREATE_PLAYLIST_ADD_VIDEO";
 
+      // let response = await axios.post(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+      //   {
+      //     playlistId: playlistId,
+      //     playlistname: playlistname,
+      //     videoId: videoId,
+      //     action: action
+      //   },
+      //   {headers:{authorization: `Bearer ${accessToken}`}}
+      // );
+
       let response = await axios.post(
         `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
         {
@@ -358,8 +431,7 @@ export const LibraryProvider = ({ children }) => {
           playlistname: playlistname,
           videoId: videoId,
           action: action
-        },
-        {headers:{authorization: `Bearer ${accessToken}`}}
+        }
       );
 
       if (response.status === 200 || response.status === 201) {
@@ -393,14 +465,23 @@ export const LibraryProvider = ({ children }) => {
   }) {
     dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
+      // let response = await axios.post(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+      //   {
+      //     playlistId: playlistId,
+      //     videoId: videoId,
+      //     action: "REMOVE_VIDEO"
+      //   },
+      //   {headers:{authorization: `Bearer ${accessToken}`}}
+      // );
+
       let response = await axios.post(
         `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
         {
           playlistId: playlistId,
           videoId: videoId,
           action: "REMOVE_VIDEO"
-        },
-        {headers:{authorization: `Bearer ${accessToken}`}}
+        }
       );
 
       if (response.status === 200) {

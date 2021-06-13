@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import {useEffect} from 'react'
 import "./ShowVideos.css"
 import { useLibrary } from "../context/LibraryProvider"
@@ -13,8 +13,10 @@ export const getFilteredData = (videoList, selectedCategory) => {
 
 export const ShowVideos = () => {
   const {
-    state: { videoList, categoryList, selectedCategory, isLoading }
+    state: { videoList, categoryList, isLoading }
   } = useLibrary();
+
+  let {categoryId : selectedCategory} = useParams()
 
   const filteredData = getFilteredData(videoList, selectedCategory);
   const category = categoryList.find(({ _id }) => _id === selectedCategory);

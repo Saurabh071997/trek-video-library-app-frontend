@@ -1,0 +1,24 @@
+.profile-edit-form{
+    display: flex;
+    flex-direction: column;
+    margin:1rem auto;
+}
+
+.btn-save{
+    border:none;
+    outline: none;
+    margin:2rem auto;
+    padding:0.5rem 2rem;
+    font-size: 1.25rem;
+    color:white;
+    background-color: #0284C7;
+    cursor: pointer;
+}
+
+.label-focus{
+    top:-10px;
+    margin-left: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--txt-light-secondary);
+    background-color: var(--bg-dark);
+}

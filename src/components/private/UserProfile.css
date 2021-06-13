@@ -16,8 +16,19 @@
   
 .profile-name {
     font-size: var(--txt-175);
-    margin: 0rem auto;
+    margin: 0.5rem auto;
     color: var(--txt-light);
+}
+
+.link-edit{
+    font-size:1rem;
+    color:#0284C7;
+    margin:0.5rem auto;
+}
+
+.link-edit span:hover{
+    cursor:pointer;
+    text-decoration: underline;
 }
   
 hr {
@@ -38,6 +49,10 @@ hr {
     overflow: hidden;
     white-space: no-wrap;
     text-overflow: ellipsis;
+}
+
+.txt-empty{
+    color:#0284C7;
 }
   
 .profile-info-img {

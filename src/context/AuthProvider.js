@@ -1,56 +1,90 @@
-import { createContext, useContext,  useState } from "react";
-import {useNavigate} from 'react-router-dom'
+import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {useToast} from './ToastProvider'
+import { useToast } from "./ToastProvider";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+function setupAuthHeaderForServiceCalls(token) {
 
+  if (token) {
+    delete axios.defaults.headers.common["Authorization"];
+    return axios.defaults.headers.common["Authorization"] = `Bearer ${token}` 
+  }
+  // console.log("deleting token now");
+  delete axios.defaults.headers.common["Authorization"];
+}
+
+
+
+export const AuthProvider = ({ children }) => {
   const { accessToken: savedToken } = JSON.parse(
     localStorage?.getItem("accessToken")
   ) || { accessToken: null };
 
-  const {toastDispatch} = useToast()
-  const navigate = useNavigate()
+  savedToken && setupAuthHeaderForServiceCalls(savedToken)
+
+  // const savedToken = JSON.parse(
+  //   localStorage?.getItem("accessToken")
+  // ) 
+
+
+  const { toastDispatch } = useToast();
+  const navigate = useNavigate();
 
   const [authState, setAuthState] = useState({
     currentUser: null,
-    accessToken:savedToken
+    accessToken: savedToken,
   });
 
 
-  async function getUserDetails(){
-    try{
-      let response = await axios.get(`https://trek-video-lib-backend.saurabhkamboj.repl.co/user/details`,
-      {headers:{authorization: `Bearer ${authState.accessToken}`}})
-
-      if(response.status === 200){
-        let {data: {data}} = response
-        setAuthState(authState=> ({...authState, currentUser: data}))
-      }
-
-    }catch(err){
-      if(err?.response?.status === 403){
-        toastDispatch({
-          TYPE: "TOGGLE_TOAST",
-          payload: { toggle: true, message: "User Session Expired" }
-        }); 
-        logoutUser()
-        navigate('/login')
-      }else if(err?.response?.status === 401){
-        toastDispatch({
-          TYPE: "TOGGLE_TOAST",
-          payload: { toggle: true, message: "Unauthorised Access" }
-        }); 
-        logoutUser()
-        navigate('/login')
-      }else{
-        console.error(err)
-      }
+  function handleError(err) {
+    if (err?.response?.status === 403) {
+      toastDispatch({
+        TYPE: "TOGGLE_TOAST",
+        payload: { toggle: true, message: "User Session Expired" },
+      });
+      logoutUser();
+      navigate("/login");
+    } else if (err?.response?.status === 401) {
+      toastDispatch({
+        TYPE: "TOGGLE_TOAST",
+        payload: { toggle: true, message: "Unauthorised Access" },
+      });
+      logoutUser();
+      navigate("/login");
+    } else {
+      toastDispatch({
+        TYPE: "TOGGLE_TOAST",
+        payload: { toggle: true, message: "NetWork Failure" },
+      });
+      console.error(err);
+      navigate('/error');
     }
   }
 
+  async function getUserDetails() {
+    try {
+      // let response = await axios.get(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/user/details`,
+      //   { headers: { authorization: `Bearer ${authState.accessToken}` } }
+      // );
+
+
+      let response = await axios.get(
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/user/details`
+      );
+
+      if (response.status === 200) {
+        let {
+          data: { data },
+        } = response;
+        setAuthState((authState) => ({ ...authState, currentUser: data }));
+      }
+    } catch (err) {
+      handleError(err)
+    }
+  }
 
   async function loginUserWithCredentials(email, password) {
     try {
@@ -58,56 +92,103 @@ export const AuthProvider = ({ children }) => {
         "https://trek-video-lib-backend.saurabhkamboj.repl.co/login",
         {
           usermail: email,
-          userpassword: password
+          userpassword: password,
         }
       );
 
       if (response.status === 200) {
-        let {data: {loggedInUser, accessToken}} = response
-        setAuthState(authState => ({...authState, currentUser:loggedInUser, accessToken}))
-        localStorage?.setItem('accessToken', JSON.stringify({accessToken}))
-        navigate('/')
-      }
+        let {
+          data: { loggedInUser, accessToken },
+        } = response;
+        
+        setupAuthHeaderForServiceCalls(accessToken)
 
+        setAuthState((authState) => ({
+          ...authState,
+          currentUser: loggedInUser,
+          accessToken,
+        }));
+
+        console.log({accessToken})
+        localStorage?.setItem("accessToken", JSON.stringify({ accessToken }));
+        
+        navigate("/");
+      }
     } catch (err) {
-      if(err?.response?.status === 400 || err?.response?.status === 401){
+      if (err?.response?.status === 400 || err?.response?.status === 401) {
         toastDispatch({
           TYPE: "TOGGLE_TOAST",
-          payload: { toggle: true, message: "Invalid Credentials" }
-        }); 
-      }else{
-        console.error(err)
+          payload: { toggle: true, message: "Invalid Credentials" },
+        });
+      } else {
+        console.error(err);
+        navigate('/error');
       }
-
     }
   }
 
-  async function handleUserSignUp(email, password){
-    try{
-      let response = await axios.post("https://trek-video-lib-backend.saurabhkamboj.repl.co/signup", {
-        email:email, 
-        password:password
-      })
+  async function handleUserSignUp(email, password) {
+    try {
+      let response = await axios.post(
+        "https://trek-video-lib-backend.saurabhkamboj.repl.co/signup",
+        {
+          email: email,
+          password: password,
+        }
+      );
 
-      if(response.status === 201){
+      if (response.status === 201) {
         toastDispatch({
           TYPE: "TOGGLE_TOAST",
-          payload: { toggle: true, message: "Account Created Successfully" }
+          payload: { toggle: true, message: "Account Created Successfully" },
         });
-        
-        navigate('/login')
 
+        navigate("/login");
       }
-
-    }catch(err){
-      if(err?.response?.status===409){
+    } catch (err) {
+      if (err?.response?.status === 409) {
         toastDispatch({
           TYPE: "TOGGLE_TOAST",
-          payload: { toggle: true, message: "User already exists" }
+          payload: { toggle: true, message: "User already exists" },
         });
-      }else{
-        console.error(err)
+      } else {
+        console.error(err);
+        navigate('/error');
       }
+    }
+  }
+
+  async function updateUserProfile(firstname, lastname, contact) {
+    try {
+      // let response = await axios.post(
+      //   `https://trek-video-lib-backend.saurabhkamboj.repl.co/user/details`,
+      //   {
+      //     firstname,
+      //     lastname,
+      //     contact,
+      //   },
+      //   { headers: { authorization: `Bearer ${authState.accessToken}` } }
+      // );
+
+      let response = await axios.post(
+        `https://trek-video-lib-backend.saurabhkamboj.repl.co/user/details`,
+        {
+          firstname,
+          lastname,
+          contact,
+        }
+      );
+
+      if (response.status === 200) {
+        toastDispatch({
+          TYPE: "TOGGLE_TOAST",
+          payload: { toggle: true, message: "Profile Updated" },
+        });
+        navigate("/profile");
+      }
+    } catch (err) {
+      handleError(err);
+      // console.error(err)
     }
   }
 
@@ -117,40 +198,29 @@ export const AuthProvider = ({ children }) => {
     setAuthState((authState) => ({
       ...authState,
       currentUser: null,
-      accessToken:null
+      accessToken: null,
     }));
-  }
 
-  function handleError(err){
-    if(err?.response?.status === 403){
-      toastDispatch({
-        TYPE: "TOGGLE_TOAST",
-        payload: { toggle: true, message: "User Session Expired" }
-      }); 
-      logoutUser()
-      navigate('/login')
-    }else if(err?.response?.status === 401){
-      toastDispatch({
-        TYPE: "TOGGLE_TOAST",
-        payload: { toggle: true, message: "Unauthorised Access" }
-      }); 
-      logoutUser()
-      navigate('/login')
-    }else{
-      console.error(err)
-    }
+    setupAuthHeaderForServiceCalls(null)
   }
 
   return (
     <AuthContext.Provider
-      value={{ authState, loginUserWithCredentials, logoutUser, handleUserSignUp, getUserDetails, handleError}}
+      value={{
+        authState,
+        loginUserWithCredentials,
+        logoutUser,
+        handleUserSignUp,
+        getUserDetails,
+        handleError,
+        updateUserProfile,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-export const useAuth = ()=> {
+export const useAuth = () => {
   return useContext(AuthContext);
-}
-
+};

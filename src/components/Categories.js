@@ -1,13 +1,11 @@
 import { useNavigate } from "react-router-dom"
 import "./Categories.css"
 import { useLibrary } from "../context/LibraryProvider"
-import { ACTIONS } from "../context/libraryReducer"
 import { Loader } from "./Loader"
 
 export const Categories = () => {
   const {
-    state: { categoryList, isLoading},
-    dispatch
+    state: { categoryList, isLoading}
   } = useLibrary();
 
   const navigate = useNavigate();
@@ -22,12 +20,7 @@ export const Categories = () => {
               key={_id}
               className="category-card"
               onClick={() => {
-                dispatch({
-                  TYPE: ACTIONS.SELECT_CATEGORY,
-                  payload: { categoryId: _id }
-                });
-
-                navigate("/videos");
+                navigate(`/videos/category/${_id}`);
               }}
             >
               <img

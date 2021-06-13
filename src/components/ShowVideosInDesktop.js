@@ -1,17 +1,19 @@
-import { Link } from "react-router-dom"
+import { Link, useParams, useNavigate} from "react-router-dom"
 import { useEffect } from "react"
 import "./ShowVideosInDesktop.css"
 import { useLibrary } from "../context/LibraryProvider"
-import { ACTIONS } from "../context/libraryReducer"
 import { ShowVideos } from "./ShowVideos"
 import {Loader} from "./Loader"
 
 
 export const ShowVideosInDesktop = () => {
   const {
-    state: { categoryList, selectedCategory, isLoading },
-    dispatch
+    state: { categoryList, isLoading }
   } = useLibrary();
+  
+  const navigate = useNavigate()
+
+  let {categoryId: selectedCategory} = useParams()
 
   let currentCategory = categoryList?.find(
     ({ _id }) => _id === selectedCategory
@@ -31,10 +33,7 @@ export const ShowVideosInDesktop = () => {
               <li
                 key={_id}
                 onClick={() => {
-                  dispatch({
-                    TYPE: ACTIONS.SELECT_CATEGORY,
-                    payload: { categoryId: _id }
-                  });
+                  navigate(`/videos/category/${_id}`);
                 }}
               >
                 {name === currentCategory?.name ? (

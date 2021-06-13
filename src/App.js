@@ -15,7 +15,9 @@ import {SignupPage} from './components/SignupPage'
 import {VideoDisplay} from './components/VideoDisplay'
 import {VideoPage} from './components/VideoPage'
 import {PrivateRoute} from './components/PrivateRoute'
+import {ErrorPage} from './components/ErrorPage'
 import {UserProfile} from './components/private/UserProfile'
+import {EditUserProfile} from './components/private/EditUserProfile'
 import {LikedVideos} from './components/private/LikedVideos'
 import {Playlist} from './components/private/Playlist'
 import {PlaylistContent} from './components/private/PlaylistContent'
@@ -50,9 +52,11 @@ function App() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element = {<SignupPage/>}/>
-          <Route path="/videos" element={<VideoDisplay />} />
+          <Route path="/videos/category/:categoryId" element={<VideoDisplay />} />
           <Route path="/video/:videoId" element={<VideoPage />} />
+          <Route path='/*' element = {<ErrorPage/>}/>
           <PrivateRoute path="/profile" element={<UserProfile />} />
+          <PrivateRoute path="/editprofile" element={<EditUserProfile/>} />
           <PrivateRoute path="/likedvideo" element={<LikedVideos />} />
           <PrivateRoute path="/watchlater" element={<WatchLater />} />
           <PrivateRoute path="/playlist" element={<Playlist />} />
