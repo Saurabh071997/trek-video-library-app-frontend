@@ -35,7 +35,7 @@ export const LibraryProvider = ({ children }) => {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
       try {
         let response = await axios.get(
-          "https://trek-video-lib-backend.saurabhkamboj.repl.co/categories"
+          "https://trek-backend.herokuapp.com/categories"
         );
 
         if (response.status === 200) {
@@ -57,7 +57,7 @@ export const LibraryProvider = ({ children }) => {
       dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
       try {
         let response = await axios.get(
-          "https://trek-video-lib-backend.saurabhkamboj.repl.co/videos"
+          "https://trek-backend.herokuapp.com/videos"
         );
 
         if (response.status === 200) {
@@ -89,7 +89,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.get(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`
+        `https://trek-backend.herokuapp.com/likedvideo/users`
       );
 
       if (response.status === 200) {
@@ -123,7 +123,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.get(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`
+        `https://trek-backend.herokuapp.com/watchlater/users`
       );
 
       if (response.status === 200) {
@@ -157,7 +157,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.get(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`
+        `https://trek-backend.herokuapp.com/playlist/users`
       );
 
       if (response.status === 200) {
@@ -190,7 +190,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.post(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
+        `https://trek-backend.herokuapp.com/likedvideo/users`,
         {
           videoId: videoId
         }
@@ -227,7 +227,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.delete(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/likedvideo/users`,
+        `https://trek-backend.herokuapp.com/likedvideo/users`,
         {
           data: {
             videoId: videoId
@@ -265,7 +265,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.post(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
+        `https://trek-backend.herokuapp.com/watchlater/users`,
         { videoId: videoId }
       );
 
@@ -303,7 +303,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.delete(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/watchlater/users`,
+        `https://trek-backend.herokuapp.com/watchlater/users`,
         {
           data: {
             videoId: videoId
@@ -346,7 +346,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.post(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+        `https://trek-backend.herokuapp.com/playlist/users`,
         {
           playlistname: playlistname,
           action: "CREATE_PLAYLIST"
@@ -390,7 +390,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.delete(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+        `https://trek-backend.herokuapp.com/playlist/users`,
         {
           data: {
             playlistId: playlistId
@@ -443,7 +443,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.post(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+        `https://trek-backend.herokuapp.com/playlist/users`,
         {
           playlistId: playlistId,
           playlistname: playlistname,
@@ -496,7 +496,7 @@ export const LibraryProvider = ({ children }) => {
       // );
 
       let response = await axios.post(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/playlist/users`,
+        `https://trek-backend.herokuapp.com/playlist/users`,
         {
           playlistId: playlistId,
           videoId: videoId,

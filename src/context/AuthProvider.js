@@ -111,9 +111,8 @@ export const AuthProvider = ({ children }) => {
       //   { headers: { authorization: `Bearer ${authState.accessToken}` } }
       // );
 
-
       let response = await axios.get(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/user/details`
+        `https://trek-backend.herokuapp.com/user/details`
       );
 
       if (response.status === 200) {
@@ -132,7 +131,7 @@ export const AuthProvider = ({ children }) => {
   async function loginUserWithCredentials(email, password) {
     try {
       let response = await axios.post(
-        "https://trek-video-lib-backend.saurabhkamboj.repl.co/login",
+        "https://trek-backend.herokuapp.com/login",
         {
           usermail: email,
           userpassword: password,
@@ -174,7 +173,7 @@ export const AuthProvider = ({ children }) => {
   async function handleUserSignUp(email, password) {
     try {
       let response = await axios.post(
-        "https://trek-video-lib-backend.saurabhkamboj.repl.co/signup",
+        "https://trek-backend.herokuapp.com/signup",
         {
           email: email,
           password: password,
@@ -216,7 +215,7 @@ export const AuthProvider = ({ children }) => {
       // );
 
       let response = await axios.post(
-        `https://trek-video-lib-backend.saurabhkamboj.repl.co/user/details`,
+        `https://trek-backend.herokuapp.com/user/details`,
         {
           firstname,
           lastname,
