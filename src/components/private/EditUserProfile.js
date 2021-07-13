@@ -40,7 +40,7 @@ export const EditUserProfile = () => {
 
       <div className="profile-edit-form">
         <div className="floating-form">
-          <div className="floating-label ">
+          <div className="floating-label w250 ">
             <input
               className="floating-input floating-input-outlined"
               type="text"
@@ -61,7 +61,7 @@ export const EditUserProfile = () => {
             )}
           </div>
 
-          <div className="floating-label ">
+          <div className="floating-label w250 ">
             <input
               className="floating-input floating-input-outlined"
               type="text"
@@ -80,7 +80,7 @@ export const EditUserProfile = () => {
             )}
           </div>
 
-          <div className="floating-label ">
+          <div className="floating-label w250 ">
             <input
               className="floating-input floating-input-outlined"
               type="text"
@@ -107,7 +107,7 @@ export const EditUserProfile = () => {
       </div>
 
       <button
-        className="btn-save"
+        className="btn-save w250"
         onClick={() => {
           updateUserProfile(
             profileState.firstname,

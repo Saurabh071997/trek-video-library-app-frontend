@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import "../Modal.css"
-import "./Playlist.css"
-import { useLibrary } from "../../context/LibraryProvider"
-import { Loader } from "../Loader"
-import plus_icon from "../../images/plus.svg"
-import video_icon from "../../images/video.svg"
-import cross_color_icon from "../../images/cross-color.svg"
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../Modal.css";
+import "./Playlist.css";
+import { useLibrary } from "../../context/LibraryProvider";
+import { Loader } from "../Loader";
+import plus_icon from "../../images/plus.svg";
+import video_icon from "../../images/video.svg";
+import cross_color_icon from "../../images/cross-color.svg";
 
 export const Playlist = () => {
-
   const {
     state: { playlist, isLoading },
     getPlaylist,
     handleCreatePlaylist,
-    handleRemovePlaylist
+    handleRemovePlaylist,
   } = useLibrary();
 
   const [showModal, setShowModal] = useState(false);
@@ -23,10 +22,10 @@ export const Playlist = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     getPlaylist();
-   // eslint-disable-next-line
-  },[])
+    // eslint-disable-next-line
+  }, []);
 
   const PlaylistCreationModal = () => {
     const [newPlaylist, setNewPlayList] = useState(null);
@@ -40,6 +39,7 @@ export const Playlist = () => {
           <div className="modal-head"> Create New Playlist </div>
           <input
             className="modal-input"
+            placeholder="playlist name"
             onChange={(e) => {
               const inputName = e.target.value;
               if (
@@ -56,10 +56,10 @@ export const Playlist = () => {
           ></input>
 
           {showErrorMsg && (
-            <div style={{ color: "red", fontSize: "1rem" }}>{errorMsg}</div>
+            <div style={{ color: "#EF4444", fontSize: "1rem" }}>{errorMsg}</div>
           )}
 
-          <div className="modal-btn-flex">
+          <div className="modal-btn-flex" style={{ justifyContent: "stretch" }}>
             <button
               disabled={
                 showErrorMsg || newPlaylist === null || newPlaylist.length === 0
@@ -67,7 +67,7 @@ export const Playlist = () => {
               className="modal-btn"
               onClick={() => {
                 handleCreatePlaylist({
-                  playlistname: newPlaylist
+                  playlistname: newPlaylist,
                 });
                 setShowModal(false);
               }}
@@ -81,31 +81,38 @@ export const Playlist = () => {
         </div>
       </div>
     );
-  }
+  };
 
-  return isLoading ? <Loader/> : (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className="page-width">
       {showModal && <PlaylistCreationModal />}
       <div>
-        <div className="page-head">PlayLists</div>
+        <div className="page-head" style={{ textAlign: "center" }}>
+          PlayLists
+        </div>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            margin: "0ren auto"
+            margin: "0ren auto",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              padding: "0.5rem 1rem",
-              marginBottom: "1rem"
-            }}
-          >
-            <button className="btn-add" onClick={() => setShowModal(true)}>
-              <img src={plus_icon} alt="img" className="btn-img" />
-            </button>
-            <div className="btn-txt"> Create Playlist </div>
+          <div style={{ margin: "0rem auto" }}>
+            <div
+              style={{
+                display: "flex",
+                padding: "0.5rem 1rem",
+                marginBottom: "1rem",
+                textAlign: "center"
+              }}
+            >
+              <button className="btn-add" onClick={() => setShowModal(true)}>
+                <img src={plus_icon} alt="img" className="btn-img" />
+              </button>
+              <div className="btn-txt"> Create Playlist </div>
+            </div>
           </div>
 
           {playlist.map(({ _id, __playlistname }) => {
@@ -124,7 +131,7 @@ export const Playlist = () => {
                     className="btn-delete"
                     onClick={() => {
                       handleRemovePlaylist({
-                        playlistId: _id
+                        playlistId: _id,
                       });
                     }}
                   >
@@ -142,4 +149,4 @@ export const Playlist = () => {
       </div>
     </div>
   );
-}
+};

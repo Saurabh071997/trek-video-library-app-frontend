@@ -16,9 +16,14 @@
 }
 
 .label-focus{
-    top:-10px;
+    top:-15px;
     margin-left: 0.25rem;
     font-size: 0.8rem;
     color: var(--txt-light-secondary);
     background-color: var(--bg-dark);
+}
+
+.w250{
+    min-width: 250px;
+    max-width: 350px;
 }

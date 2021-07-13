@@ -54,7 +54,7 @@ export const VideoOptions = ({ videoId }) => {
   });
 
   const PlaylistModal = () => {
-    const [playlistType, setPlaylistType] = useState(null);
+    const [playlistType, setPlaylistType] = useState("NEW");
     const playlistErrorMsg = "Please select/create a playlist !!";
     const [playlistError, setPlaylistError] = useState(false);
     const errorMsg =
@@ -66,11 +66,11 @@ export const VideoOptions = ({ videoId }) => {
     });
     return (
       <div className="modal-div">
-        <div className="modal-sub-div">
+        <div className="modal-sub-div modal-width">
           <div className="modal-head"> Add to Playlist</div>
           <div className="modal-btn-flex">
             <button
-              className="modal-btn"
+              className="modal-create-btn"
               onClick={() => {
                 setPlaylistType("NEW");
                 setCurrentPlaylist({
@@ -84,7 +84,7 @@ export const VideoOptions = ({ videoId }) => {
               Create New
             </button>
             <button
-              className="modal-btn"
+              className="modal-create-btn"
               onClick={() => {
                 setPlaylistType("OLD");
                 setCurrentPlaylist({
@@ -102,6 +102,7 @@ export const VideoOptions = ({ videoId }) => {
           {playlistType === "NEW" && (
             <input
               className="modal-input"
+              placeholder="playlist name..."
               onChange={(e) => {
                 const inputName = e.target.value;
                 if (
@@ -126,7 +127,7 @@ export const VideoOptions = ({ videoId }) => {
             <div className="modal-flex-col">
               {playlist?.map(({ _id, __playlistname }) => {
                 return (
-                  <div key={_id}>
+                  <div key={_id} >
                     <button
                       className="modal-btn-playlist"
                       onClick={() => {
@@ -212,7 +213,7 @@ export const VideoOptions = ({ videoId }) => {
                   color: "white",
                   backgroundColor: "black",
                   fontSize: "1.15rem",
-                  padding: "0.5rem",
+                  padding: "0.35rem 3rem",
                   margin: "0rem auto",
                   border: "none",
                   outline: "none",

@@ -43,7 +43,7 @@ export const LoginPage = () => {
             <Link to ='/signup'><span className="page-nav-link">Create Account</span></Link>
             </div>
             <button
-              className="btn btn-contained-secondary"
+              className="btn-login"
               onClick={() => {
                 loginUserWithCredentials(email, password);
               }}

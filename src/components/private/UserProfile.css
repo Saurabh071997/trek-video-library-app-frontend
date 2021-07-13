@@ -65,12 +65,14 @@ hr {
   
 .btn-logout {
     font-size: var(--txt-15);
-    color: #dc2626;
-    margin: 0.5rem auto;
+    color:whitesmoke;
+    margin: 2rem auto;
     cursor: pointer;
-    background: transparent;
     border: none;
     outline: none;
+    padding:0.35rem 1rem;
+    background-color:#EF4444;
+    width:200px;
 }
 
 @media screen and (max-width: 600px){

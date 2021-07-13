@@ -25,7 +25,9 @@
   
 .floating-input {
     font-size: var(--txt-125);
-    color: white;
+    color: whitesmoke;
+    padding:0.75rem;
+
 }
   
 .floating-input:focus {
@@ -33,7 +35,8 @@
 }
   
 label {
-    font-size: var(--txt-115);
+    font-size: var(--txt-125);
+    padding:0.25rem;
 }
   
 .floating-input-outlined:focus ~ label,
@@ -69,6 +72,19 @@ label {
     text-decoration: underline;
 }
 
+.btn-login {
+    margin: 1rem auto;
+    font-size: var(--txt-15);
+    padding: 0.25rem 1.5rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    outline: none;
+    border: none;
+    background-color: #3B82F6;
+    color: #e4e4e7;
+    width: 50%;
+  }
+
 @media screen and (max-width:600px){
     
     .login-block {
@@ -83,5 +99,9 @@ label {
         width: auto;
         margin: 1rem auto;
     }
+
+    .btn-login{
+        width:90%;
+      }
 
 }
