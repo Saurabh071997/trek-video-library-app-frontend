@@ -1,37 +1,42 @@
-import { Link } from "react-router-dom"
-import { useEffect } from "react"
-import "./LikedVideos.css"
-import { useLibrary } from "../../context/LibraryProvider"
-import { VideoCard } from "../VideoCard"
-import { Loader } from "../Loader"
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import "./LikedVideos.css";
+import { useLibrary } from "../../context/LibraryProvider";
+import { VideoCard } from "../VideoCard";
+import { Loader } from "../Loader";
 
 export const WatchLater = () => {
   const {
-    state: { watchLaterVideos, videoList , isLoading },
-    getWatchLaterVideos,getLikedVideos
+    state: { watchLaterVideos, videoList, isLoading },
+    getWatchLaterVideos,
+    getLikedVideos,
   } = useLibrary();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     getWatchLaterVideos();
-    getLikedVideos()
+    getLikedVideos();
     // eslint-disable-next-line
-  },[])
+  }, []);
 
-  return isLoading ? <Loader/> : (
-    <div className="page-layout">
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <div className="page-block-layout">
       <div className="page-head">Watch Later</div>
       {watchLaterVideos?.length > 0 ? (
-        <div className="page-container">
+        <div className="page-block-container">
           {watchLaterVideos.map(({ __video }) => {
             let video = videoList?.find(({ _id }) => _id === __video);
             return (
-              <Link to={`/watchlater/${video?._id}`} key={__video}>
-                <VideoCard video={video} />
-              </Link>
+              <div key={__video} className="width300">
+                <Link to={`/watchlater/${video?._id}`}>
+                  <VideoCard video={video} />
+                </Link>
+              </div>
             );
           })}
         </div>
@@ -48,4 +53,4 @@ export const WatchLater = () => {
       )}
     </div>
   );
-}
+};

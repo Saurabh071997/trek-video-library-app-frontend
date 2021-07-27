@@ -19,6 +19,7 @@
   padding: 1rem;
   background-color: #e5e7eb;
   box-shadow: 0px 0px 20px var(--truegray500);
+  border-radius: 0.35rem;
 }
 
 .modal-head {
@@ -43,17 +44,17 @@
   flex: 1 1 auto;
 }
 
-.modal-create-btn{
-    font-size: 1.15rem;
-    background: transparent;
-    padding: 0.35rem;
-    color:var(--truegray800);
-    border: 4px solid var(--truegray800);
-    outline: none;
-    margin-left: 0.25rem;
-    cursor: pointer;
-    flex: 1 1 auto;
-    font-weight: bold;
+.modal-create-btn {
+  font-size: 1.15rem;
+  background: transparent;
+  padding: 0.35rem;
+  color: var(--truegray800);
+  border: 4px solid var(--truegray800);
+  outline: none;
+  margin-left: 0.25rem;
+  cursor: pointer;
+  flex: 1 1 auto;
+  font-weight: bold;
 }
 
 .modal-input {
@@ -92,6 +93,16 @@
 
 .modal-width {
   width: 25vw;
+}
+
+.overlay {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
 }
 
 @media screen and (max-width: 600px) {

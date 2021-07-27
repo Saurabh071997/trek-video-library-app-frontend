@@ -5,17 +5,16 @@
     color: var(--truegray200);
 }
   
-.page-layout {
-    width: 70%;
+.page-block-layout {
+    width: 80%;
     margin: 0rem auto;
 }
   
-.page-container {
+.page-block-container {
     display: flex;
     flex-wrap: wrap;
     width: 90%;
     margin: 0rem auto;
-    justify-content: space-evenly;
 }
 
 .empty-container {
@@ -40,13 +39,21 @@
         font-size: var(--txt-175);
     }
     
-    .page-layout {
+    .page-block-layout {
         width: auto;
     }
     
-    .page-container {
+    .page-block-container {
         padding: 0rem;
         margin: 0rem;
         width: auto;
+    }
+
+    .width300{
+        width:100%;
+        margin:0rem auto;
+        flex-shrink: 0;
+        flex-basis: 100%;
+        flex-grow: 1;
     }
 }

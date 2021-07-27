@@ -1,6 +1,7 @@
-import "./LoginPage.css";
 import { Link } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { useState, useEffect } from "react";
+import "./LoginPage.css";
 import { useAuth } from "../context/AuthProvider";
 
 export const ShowErrorMessage = ({ message }) => {
@@ -26,7 +27,10 @@ export const SignupPage = () => {
     emptyPasswordError: "emptyPasswordError",
   };
 
-  const { handleUserSignUp } = useAuth();
+  const {
+    authState: { authLoader },
+    handleUserSignUp,
+  } = useAuth();
 
   const validateSignup = async () => {
     let regex =
@@ -122,8 +126,21 @@ export const SignupPage = () => {
               </Link>
             </div>
 
-            <button className="btn-login" onClick={validateSignup}>
-              Sign up
+            <button
+              className={authLoader ? "btn-login btn-disabled" : "btn-login"}
+              onClick={validateSignup}
+            >
+              {authLoader ? (
+                <CircularProgress
+                  style={{
+                    color: "#F1F5F9",
+                    height: "1.5rem",
+                    width: "1.5rem",
+                  }}
+                />
+              ) : (
+                "Sign up"
+              )}
             </button>
           </div>
         </div>

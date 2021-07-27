@@ -50,9 +50,9 @@ export const DesktopNavigation =()=> {
             <button type="button" className="btn-icon">
               <img
                 src={cat_icon}
-                title="Home"
+                title="Categories"
                 className="img30x30"
-                alt="home"
+                alt="categories"
               />
             </button>
           </NavLink>
@@ -119,25 +119,25 @@ export const MobileNavigation = () => {
 
         <NavLink to="/categories">
           <button type="button" className="btn-icon">
-            <img src={cat_icon} className="img30x30" alt="home_icon" />
+            <img src={cat_icon} className="img30x30" alt="cat_icon" />
           </button>
         </NavLink>
 
         <NavLink to="/playlist">
           <button type="button" className="btn-icon">
-            <img src={lib_icon} className="img30x30" alt="wish_icon" />
+            <img src={lib_icon} className="img30x30" alt="lib_icon" />
           </button>
         </NavLink>
 
         <NavLink to="/watchlater">
           <button type="button" className="btn-icon">
-            <img src={watch_icon} className="img30x30" alt="category_icon" />
+            <img src={watch_icon} className="img30x30" alt="watch_icon" />
           </button>
         </NavLink>
 
         <NavLink to="/likedvideo">
           <button type="button" className="btn-icon">
-            <img src={wish_icon} className="img30x30" alt="cart_icon" />
+            <img src={wish_icon} className="img30x30" alt="wish_icon" />
           </button>
         </NavLink>
       </div>

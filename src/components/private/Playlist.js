@@ -34,52 +34,66 @@ export const Playlist = () => {
     const [showErrorMsg, setErrorMsg] = useState(false);
 
     return (
-      <div className="modal-div">
-        <div className="modal-sub-div">
-          <div className="modal-head"> Create New Playlist </div>
-          <input
-            className="modal-input"
-            placeholder="playlist name"
-            onChange={(e) => {
-              const inputName = e.target.value;
-              if (
-                playlist.find(
-                  ({ __playlistname }) => __playlistname === inputName
-                )
-              ) {
-                setErrorMsg(true);
-              } else {
-                setErrorMsg(false);
-                setNewPlayList(inputName);
-              }
-            }}
-          ></input>
+      <>
+        <div className="overlay">
+          <div className="modal-div">
+            <div className="modal-sub-div">
+              <div className="modal-head"> Create New Playlist </div>
+              <input
+                className="modal-input"
+                placeholder="playlist name"
+                onChange={(e) => {
+                  const inputName = e.target.value;
+                  if (
+                    playlist.find(
+                      ({ __playlistname }) => __playlistname === inputName
+                    )
+                  ) {
+                    setErrorMsg(true);
+                  } else {
+                    setErrorMsg(false);
+                    setNewPlayList(inputName);
+                  }
+                }}
+              ></input>
 
-          {showErrorMsg && (
-            <div style={{ color: "#EF4444", fontSize: "1rem" }}>{errorMsg}</div>
-          )}
+              {showErrorMsg && (
+                <div style={{ color: "#EF4444", fontSize: "1rem" }}>
+                  {errorMsg}
+                </div>
+              )}
 
-          <div className="modal-btn-flex" style={{ justifyContent: "stretch" }}>
-            <button
-              disabled={
-                showErrorMsg || newPlaylist === null || newPlaylist.length === 0
-              }
-              className="modal-btn"
-              onClick={() => {
-                handleCreatePlaylist({
-                  playlistname: newPlaylist,
-                });
-                setShowModal(false);
-              }}
-            >
-              Create
-            </button>
-            <button className="modal-btn" onClick={() => setShowModal(false)}>
-              Cancel
-            </button>
+              <div
+                className="modal-btn-flex"
+                style={{ justifyContent: "stretch" }}
+              >
+                <button
+                  disabled={
+                    showErrorMsg ||
+                    newPlaylist === null ||
+                    newPlaylist.length === 0
+                  }
+                  className="modal-btn"
+                  onClick={() => {
+                    handleCreatePlaylist({
+                      playlistname: newPlaylist,
+                    });
+                    setShowModal(false);
+                  }}
+                >
+                  Create
+                </button>
+                <button
+                  className="modal-btn"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   };
 
@@ -105,7 +119,7 @@ export const Playlist = () => {
                 display: "flex",
                 padding: "0.5rem 1rem",
                 marginBottom: "1rem",
-                textAlign: "center"
+                textAlign: "center",
               }}
             >
               <button className="btn-add" onClick={() => setShowModal(true)}>

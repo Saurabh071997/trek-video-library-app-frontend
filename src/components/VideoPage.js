@@ -1,19 +1,19 @@
-import { Link, useParams, useNavigate } from "react-router-dom"
-import { useReducer, useState, useEffect} from "react"
-import "./VideoPage.css"
-import "./Modal.css"
-import { useWindowSize } from "../context/useWindowSize"
-import { useLibrary } from "../context/LibraryProvider"
-import { useAuth } from "../context/AuthProvider"
-import { Loader } from "./Loader"
-import { VideoCard } from "../components/VideoCard"
-import watch from "../images/watch_later.svg"
-import watch_color_icon from "../images/watch-color.svg"
-import wish_icon from "../images/wishlist.svg"
-import wish_color_icon from "../images/wish-color.svg"
-import lib_icon from "../images/playlist-add.svg"
-import cross from "../images/cross-icon.svg"
-import cross_color_icon from "../images/cross-color.svg"
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { useReducer, useState, useEffect } from "react";
+import "./VideoPage.css";
+import "./Modal.css";
+import { useWindowSize } from "../context/useWindowSize";
+import { useLibrary } from "../context/LibraryProvider";
+import { useAuth } from "../context/AuthProvider";
+import { Loader } from "./Loader";
+import { VideoCard } from "../components/VideoCard";
+import watch from "../images/watch_later.svg";
+import watch_color_icon from "../images/watch-color.svg";
+import wish_icon from "../images/wishlist.svg";
+import wish_color_icon from "../images/wish-color.svg";
+import lib_icon from "../images/playlist-add.svg";
+import cross from "../images/cross-icon.svg";
+import cross_color_icon from "../images/cross-color.svg";
 
 export const modalReducer = (state, action) => {
   switch (action.TYPE) {
@@ -28,29 +28,29 @@ export const modalReducer = (state, action) => {
     default:
       return state;
   }
-}
+};
 
 export const VideoOptions = ({ videoId }) => {
   const {
-    authState: { accessToken }
+    authState: { accessToken },
   } = useAuth();
 
   const { playlistId } = useParams();
   const navigate = useNavigate();
 
   const {
-    state: { likedVideos, watchLaterVideos, playlist},
+    state: { likedVideos, watchLaterVideos, playlist },
     handleAddToLikedVideos,
     handleRemovefromLikedVideos,
     handleAddToWatchLaterVideos,
     handleRemovefromWatchLaterVideos,
     handleAddVideoToPlaylist,
-    handleRemoveVideoFromPlaylist
+    handleRemoveVideoFromPlaylist,
   } = useLibrary();
 
   const [modalState, modalDispatch] = useReducer(modalReducer, {
     showLoginModal: false,
-    showPlaylistModal: false
+    showPlaylistModal: false,
   });
 
   const PlaylistModal = () => {
@@ -62,192 +62,216 @@ export const VideoOptions = ({ videoId }) => {
     const [showErrorMsg, setErrorMsg] = useState(false);
     const [currentPlaylist, setCurrentPlaylist] = useState({
       playlistId: undefined,
-      playlistName: undefined
+      playlistName: undefined,
     });
     return (
-      <div className="modal-div">
-        <div className="modal-sub-div modal-width">
-          <div className="modal-head"> Add to Playlist</div>
-          <div className="modal-btn-flex">
-            <button
-              className="modal-create-btn"
-              onClick={() => {
-                setPlaylistType("NEW");
-                setCurrentPlaylist({
-                  ...currentPlaylist,
-                  playlistId: undefined,
-                  playlistName: undefined
-                });
-                setPlaylistError(false);
-              }}
-            >
-              Create New
-            </button>
-            <button
-              className="modal-create-btn"
-              onClick={() => {
-                setPlaylistType("OLD");
-                setCurrentPlaylist({
-                  ...currentPlaylist,
-                  playlistId: undefined,
-                  playlistName: undefined
-                });
-                setPlaylistError(false);
-              }}
-            >
-              Add to Existing
-            </button>
-          </div>
+      <>
+        <div className="overlay">
+          <div className="modal-div">
+            <div className="modal-sub-div modal-width">
+              <div className="modal-head"> Add to Playlist</div>
+              <div className="modal-btn-flex">
+                <button
+                  className="modal-create-btn"
+                  onClick={() => {
+                    setPlaylistType("NEW");
+                    setCurrentPlaylist({
+                      ...currentPlaylist,
+                      playlistId: undefined,
+                      playlistName: undefined,
+                    });
+                    setPlaylistError(false);
+                  }}
+                >
+                  Create New
+                </button>
+                <button
+                  className="modal-create-btn"
+                  onClick={() => {
+                    setPlaylistType("OLD");
+                    setCurrentPlaylist({
+                      ...currentPlaylist,
+                      playlistId: undefined,
+                      playlistName: undefined,
+                    });
+                    setPlaylistError(false);
+                  }}
+                >
+                  Add to Existing
+                </button>
+              </div>
 
-          {playlistType === "NEW" && (
-            <input
-              className="modal-input"
-              placeholder="playlist name..."
-              onChange={(e) => {
-                const inputName = e.target.value;
-                if (
-                  playlist?.find(
-                    ({ __playlistname }) => __playlistname === inputName
-                  )
-                ) {
-                  setErrorMsg(true);
-                } else {
-                  setErrorMsg(false);
-                  setCurrentPlaylist({
-                    ...currentPlaylist,
-                    playlistId: undefined,
-                    playlistName: inputName
-                  });
-                }
-              }}
-            ></input>
-          )}
+              {playlistType === "NEW" && (
+                <input
+                  className="modal-input"
+                  placeholder="playlist name..."
+                  onChange={(e) => {
+                    const inputName = e.target.value;
+                    if (
+                      playlist?.find(
+                        ({ __playlistname }) => __playlistname === inputName
+                      )
+                    ) {
+                      setErrorMsg(true);
+                    } else {
+                      setErrorMsg(false);
+                      setCurrentPlaylist({
+                        ...currentPlaylist,
+                        playlistId: undefined,
+                        playlistName: inputName,
+                      });
+                    }
+                  }}
+                ></input>
+              )}
 
-          {playlistType === "OLD" && (
-            <div className="modal-flex-col">
-              {playlist?.map(({ _id, __playlistname }) => {
-                return (
-                  <div key={_id} >
-                    <button
-                      className="modal-btn-playlist"
-                      onClick={() => {
-                        setCurrentPlaylist({
-                          ...currentPlaylist,
-                          playlistId: _id,
-                          playlistName: __playlistname
-                        });
-                      }}
-                    >
-                      {__playlistname}
-                    </button>
-                  </div>
-                );
-              })}
+              {playlistType === "OLD" && (
+                <div className="modal-flex-col">
+                  {playlist?.length > 0 ? (
+                    <>
+                      {playlist?.map(({ _id, __playlistname }) => {
+                        return (
+                          <div key={_id}>
+                            <button
+                              className="modal-btn-playlist"
+                              onClick={() => {
+                                setCurrentPlaylist({
+                                  ...currentPlaylist,
+                                  playlistId: _id,
+                                  playlistName: __playlistname,
+                                });
+                              }}
+                            >
+                              {__playlistname}
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        style={{
+                          fontSize: "1.15rem",
+                          textAlign: "center",
+                          color: "#404040",
+                        }}
+                      >
+                        No previous playlists Found !!
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {playlistError && (
+                <div style={{ color: "red", fontSize: "1rem" }}>
+                  {playlistErrorMsg}
+                </div>
+              )}
+
+              {showErrorMsg && (
+                <div style={{ color: "red", fontSize: "1rem" }}>{errorMsg}</div>
+              )}
+
+              <div className="modal-btn-flex" style={{ marginTop: "1.5rem" }}>
+                <button
+                  className="modal-btn"
+                  disabled={playlistError || showErrorMsg}
+                  onClick={() => {
+                    if (
+                      // currentPlaylist.playlistId === undefined ||
+                      currentPlaylist.playlistName === undefined
+                    ) {
+                      setPlaylistError(true);
+                    } else {
+                      handleAddVideoToPlaylist({
+                        playlistId: currentPlaylist?.playlistId,
+                        playlistname: currentPlaylist?.playlistName,
+                        videoId: videoId,
+                      });
+                      modalDispatch({ TYPE: "HIDE_PLAYLIST_MODAL" });
+                    }
+                  }}
+                >
+                  {" "}
+                  ADD{" "}
+                </button>
+
+                <button
+                  className="modal-btn"
+                  onClick={() => modalDispatch({ TYPE: "HIDE_PLAYLIST_MODAL" })}
+                >
+                  CANCEL
+                </button>
+              </div>
             </div>
-          )}
-
-          {playlistError && (
-            <div style={{ color: "red", fontSize: "1rem" }}>
-              {playlistErrorMsg}
-            </div>
-          )}
-
-          {showErrorMsg && (
-            <div style={{ color: "red", fontSize: "1rem" }}>{errorMsg}</div>
-          )}
-
-          <div className="modal-btn-flex" style={{ marginTop: "1.5rem" }}>
-            <button
-              className="modal-btn"
-              disabled={playlistError || showErrorMsg}
-              onClick={() => {
-                if (
-                  // currentPlaylist.playlistId === undefined ||
-                  currentPlaylist.playlistName === undefined
-                ) {
-                  setPlaylistError(true);
-                } else {
-                  handleAddVideoToPlaylist({
-                    playlistId: currentPlaylist?.playlistId,
-                    playlistname: currentPlaylist?.playlistName,
-                    videoId: videoId
-                  });
-                  modalDispatch({ TYPE: "HIDE_PLAYLIST_MODAL" });
-                }
-              }}
-            >
-              {" "}
-              ADD{" "}
-            </button>
-
-            <button
-              className="modal-btn"
-              onClick={() => modalDispatch({ TYPE: "HIDE_PLAYLIST_MODAL" })}
-            >
-              CANCEL
-            </button>
           </div>
         </div>
-      </div>
+      </>
     );
-  }
+  };
 
   const LoginModal = () => {
     return (
-      <div className="modal-div">
-        <div className="modal-sub-div">
-          <div
-            style={{
-              color: "black",
-              fontSize: "1.5rem",
-              padding: "0.5rem",
-              margin: "0rem auto"
-            }}
-          >
-            Login to continue with this action
-          </div>
-          <Link to="/login">
-            <div style={{ textAlign: "center" }}>
-              <button
+      <>
+        <div className="overlay">
+          <div className="modal-div">
+            <div className="modal-sub-div">
+              <div
                 style={{
-                  color: "white",
-                  backgroundColor: "black",
-                  fontSize: "1.15rem",
-                  padding: "0.35rem 3rem",
+                  color: "black",
+                  fontSize: "1.5rem",
+                  padding: "0.5rem",
                   margin: "0rem auto",
-                  border: "none",
-                  outline: "none",
-                  cursor: "pointer"
                 }}
               >
-                Login
+                Login to continue with this action
+              </div>
+              <Link to="/login">
+                <div style={{ textAlign: "center" }}>
+                  <button
+                    style={{
+                      color: "white",
+                      backgroundColor: "black",
+                      fontSize: "1.15rem",
+                      padding: "0.35rem 3rem",
+                      margin: "0rem auto",
+                      border: "none",
+                      outline: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Login
+                  </button>
+                </div>
+              </Link>
+              <button
+                style={{
+                  position: "absolute",
+                  right: "0.5em",
+                  top: "0.5em",
+                  border: "none",
+                  outline: "none",
+                  cursor: "pointer",
+                }}
+                onClick={() => modalDispatch({ TYPE: "HIDE_LOGIN_MODAL" })}
+              >
+                <img
+                  src={cross}
+                  alt="img"
+                  style={{
+                    height: "1rem",
+                    width: "1rem",
+                  }}
+                />
               </button>
             </div>
-          </Link>
-          <button
-            style={{
-              position: "absolute",
-              right: "0.5em",
-              top: "0.5em",
-              border: "none",
-              outline: "none",
-              cursor: "pointer"
-            }}
-            onClick={() => modalDispatch({ TYPE: "HIDE_LOGIN_MODAL" })}
-          >
-            <img
-              src={cross}
-              alt="img"
-              style={{
-                height: "1rem",
-                width: "1rem"
-              }}
-            />
-          </button>
+          </div>
         </div>
-      </div>
+      </>
     );
-  }
+  };
 
   return (
     <>
@@ -261,7 +285,7 @@ export const VideoOptions = ({ videoId }) => {
           right: "0em",
           top: "0em",
           padding: "0rem",
-          height: "auto"
+          height: "auto",
         }}
       >
         <button
@@ -288,7 +312,7 @@ export const VideoOptions = ({ videoId }) => {
             onClick={() => {
               if (accessToken) {
                 handleRemovefromWatchLaterVideos({
-                  videoId
+                  videoId,
                 });
               } else {
                 modalDispatch({ TYPE: "SHOW_LOGIN_MODAL" });
@@ -309,7 +333,7 @@ export const VideoOptions = ({ videoId }) => {
             onClick={() => {
               if (accessToken) {
                 handleAddToWatchLaterVideos({
-                  videoId
+                  videoId,
                 });
               } else {
                 modalDispatch({ TYPE: "SHOW_LOGIN_MODAL" });
@@ -329,7 +353,7 @@ export const VideoOptions = ({ videoId }) => {
             onClick={() => {
               if (accessToken) {
                 handleRemovefromLikedVideos({
-                  videoId
+                  videoId,
                 });
               } else {
                 modalDispatch({ TYPE: "SHOW_LOGIN_MODAL" });
@@ -367,7 +391,7 @@ export const VideoOptions = ({ videoId }) => {
             onClick={() => {
               handleRemoveVideoFromPlaylist({
                 playlistId,
-                videoId
+                videoId,
               });
               navigate(`/playlist/${playlistId}`);
             }}
@@ -378,11 +402,11 @@ export const VideoOptions = ({ videoId }) => {
       </div>
     </>
   );
-}
+};
 
 export const VideoContent = ({ video }) => {
   const {
-    state: { videoList }
+    state: { videoList },
   } = useLibrary();
 
   const [, width] = useWindowSize();
@@ -439,9 +463,9 @@ export const VideoContent = ({ video }) => {
             ) {
               return (
                 <div key={videoItem._id} className="width300">
-                <Link to={`/video/${videoItem._id}`} >
-                  <VideoCard video={videoItem} />
-                </Link>
+                  <Link to={`/video/${videoItem._id}`}>
+                    <VideoCard video={videoItem} />
+                  </Link>
                 </div>
               );
             }
@@ -451,13 +475,13 @@ export const VideoContent = ({ video }) => {
       </div>
     </div>
   );
-}
+};
 
 export const VideoPage = () => {
   const { videoId } = useParams();
   const {
-    state: { videoList, isLoading }
-  } = useLibrary(); 
+    state: { videoList, isLoading },
+  } = useLibrary();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -465,5 +489,5 @@ export const VideoPage = () => {
 
   const video = videoList?.find(({ _id }) => _id === videoId);
 
-  return  isLoading ? <Loader/> : <VideoContent video={video} />;
-}
+  return isLoading ? <Loader /> : <VideoContent video={video} />;
+};

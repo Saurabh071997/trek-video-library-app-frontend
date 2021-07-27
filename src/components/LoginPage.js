@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
-import "./LoginPage.css"
-import { useAuth } from "../context/AuthProvider"
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import "./LoginPage.css";
+import { useAuth } from "../context/AuthProvider";
 
 export const LoginPage = () => {
   const {
-    loginUserWithCredentials
+    authState: { authLoader },
+    loginUserWithCredentials,
   } = useAuth();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -13,7 +15,11 @@ export const LoginPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
- 
+
+  const guestLogin = () => {
+    loginUserWithCredentials("guest@mail.com", "123456789");
+  };
+
   return (
     <>
       <div className="component-head">Login</div>
@@ -39,20 +45,62 @@ export const LoginPage = () => {
             <label>Password</label>
           </div>
           <div className="align-center">
-            <div className="page-nav-txt">New User? 
-            <Link to ='/signup'><span className="page-nav-link">Create Account</span></Link>
+            <div className="page-nav-txt">
+              New User?
+              <Link to="/signup">
+                <span className="page-nav-link">Create Account</span>
+              </Link>
             </div>
+
             <button
-              className="btn-login"
+              className={authLoader ? "btn-login btn-disabled" : "btn-login"}
               onClick={() => {
                 loginUserWithCredentials(email, password);
               }}
             >
-              Login
+              {authLoader ? (
+                <CircularProgress
+                  style={{
+                    color: "#F1F5F9",
+                    height: "1.5rem",
+                    width: "1.5rem",
+                  }}
+                />
+              ) : (
+                "Login"
+              )}
+            </button>
+
+            <div
+              style={{
+                textAlign: "center",
+                color: "#3B82F6",
+                fontSize: "1.15rem",
+              }}
+            >
+              Or
+            </div>
+
+            <button
+              className={authLoader ? "btn-login btn-disabled" : "btn-login"}
+              onClick={guestLogin}
+              style={{ fontSize: "1.15rem" }}
+            >
+              {authLoader ? (
+                <CircularProgress
+                  style={{
+                    color: "#F1F5F9",
+                    height: "1.5rem",
+                    width: "1.5rem",
+                  }}
+                />
+              ) : (
+                "Login as Guest"
+              )}
             </button>
           </div>
         </div>
       </div>
     </>
   );
-}
+};

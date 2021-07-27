@@ -35,13 +35,13 @@ function setupAuthExceptionHandler(logoutUser, navigate, toastDispatch) {
         });
         logoutUser();
         navigate("/login");
-      } else if(error?.response?.status === 500 ) {
+      } else if (error?.response?.status === 500) {
         toastDispatch({
           TYPE: "TOGGLE_TOAST",
           payload: { toggle: true, message: "Something went wrong" },
         });
         console.error(error);
-        navigate('/error')
+        navigate("/error");
       }
 
       return Promise.reject(error);
@@ -62,20 +62,18 @@ export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     currentUser: null,
     accessToken: savedToken,
+    authLoader: false,
   });
 
   useEffect(() => {
     // authState?.accessToken &&
-      setupAuthExceptionHandler(logoutUser, navigate, toastDispatch);
+    setupAuthExceptionHandler(logoutUser, navigate, toastDispatch);
     // eslint-disable-next-line
   }, []);
 
-
   async function getUserDetails() {
     try {
-      let response = await axios.get(
-        `${API_URL}/user/details`
-      );
+      let response = await axios.get(`${API_URL}/user/details`);
 
       if (response.status === 200) {
         let {
@@ -89,14 +87,12 @@ export const AuthProvider = ({ children }) => {
   }
 
   async function loginUserWithCredentials(email, password) {
+    setAuthState((authState) => ({ ...authState, authLoader: true }));
     try {
-      let response = await axios.post(
-        `${API_URL}/login`,
-        {
-          usermail: email,
-          userpassword: password,
-        }
-      );
+      let response = await axios.post(`${API_URL}/login`, {
+        usermail: email,
+        userpassword: password,
+      });
 
       if (response.status === 200) {
         let {
@@ -112,7 +108,7 @@ export const AuthProvider = ({ children }) => {
         }));
 
         localStorage?.setItem("accessToken", JSON.stringify({ accessToken }));
-        navigate("/");
+        navigate("/categories");
       }
     } catch (err) {
       if (err?.response?.status === 400 || err?.response?.status === 401) {
@@ -124,26 +120,39 @@ export const AuthProvider = ({ children }) => {
         console.error(err);
         navigate("/error");
       }
+    } finally {
+      setAuthState((authState) => ({ ...authState, authLoader: false }));
     }
   }
 
   async function handleUserSignUp(email, password) {
+    setAuthState((authState) => ({ ...authState, authLoader: true }));
     try {
-      let response = await axios.post(
-        `${API_URL}/signup`,
-        {
-          email: email,
-          password: password,
-        }
-      );
+      let response = await axios.post(`${API_URL}/signup`, {
+        email: email,
+        password: password,
+      });
 
       if (response.status === 201) {
+        let {
+          data: { newUser, accessToken },
+        } = response;
+
+        setupAuthHeaderForServiceCalls(accessToken);
+        
+        setAuthState((authState) => ({
+          ...authState,
+          currentUser: newUser,
+          accessToken,
+        }));
+
+        localStorage?.setItem("accessToken", JSON.stringify({ accessToken }));
+
         toastDispatch({
           TYPE: "TOGGLE_TOAST",
           payload: { toggle: true, message: "Account Created Successfully" },
         });
-
-        navigate("/login");
+        navigate("/categories");
       }
     } catch (err) {
       if (err?.response?.status === 409) {
@@ -155,19 +164,18 @@ export const AuthProvider = ({ children }) => {
         console.error(err);
         navigate("/error");
       }
+    } finally {
+      setAuthState((authState) => ({ ...authState, authLoader: false }));
     }
   }
 
   async function updateUserProfile(firstname, lastname, contact) {
     try {
-      let response = await axios.post(
-        `${API_URL}/user/details`,
-        {
-          firstname,
-          lastname,
-          contact,
-        }
-      );
+      let response = await axios.post(`${API_URL}/user/details`, {
+        firstname,
+        lastname,
+        contact,
+      });
 
       if (response.status === 200) {
         toastDispatch({
@@ -177,7 +185,7 @@ export const AuthProvider = ({ children }) => {
         navigate("/profile");
       }
     } catch (err) {
-        console.error(err)
+      console.error(err);
     }
   }
 
@@ -188,6 +196,7 @@ export const AuthProvider = ({ children }) => {
       ...authState,
       currentUser: null,
       accessToken: null,
+      authLoader: false,
     }));
 
     setupAuthHeaderForServiceCalls(null);

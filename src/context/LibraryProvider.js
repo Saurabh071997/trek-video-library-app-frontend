@@ -136,7 +136,6 @@ export const LibraryProvider = ({ children }) => {
   }
 
   async function handleAddToLikedVideos({ videoId }) {
-    dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.post(`${API_URL}/likedvideo/users`, {
         videoId: videoId,
@@ -152,13 +151,10 @@ export const LibraryProvider = ({ children }) => {
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
   async function handleRemovefromLikedVideos({ videoId }) {
-    dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.delete(`${API_URL}/likedvideo/users`, {
         data: {
@@ -179,13 +175,10 @@ export const LibraryProvider = ({ children }) => {
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
   async function handleAddToWatchLaterVideos({ videoId }) {
-    dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.post(`${API_URL}/watchlater/users`, {
         videoId: videoId,
@@ -204,13 +197,10 @@ export const LibraryProvider = ({ children }) => {
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
   async function handleRemovefromWatchLaterVideos({ videoId }) {
-    dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.delete(`${API_URL}/watchlater/users`, {
         data: {
@@ -231,8 +221,6 @@ export const LibraryProvider = ({ children }) => {
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
@@ -298,7 +286,6 @@ export const LibraryProvider = ({ children }) => {
     playlistname,
     videoId,
   }) {
-    dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let action =
         playlistId !== undefined ? "ADD_VIDEO" : "CREATE_PLAYLIST_ADD_VIDEO";
@@ -328,13 +315,10 @@ export const LibraryProvider = ({ children }) => {
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
   async function handleRemoveVideoFromPlaylist({ playlistId, videoId }) {
-    dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: true } });
     try {
       let response = await axios.post(`${API_URL}/playlist/users`, {
         playlistId: playlistId,
@@ -360,8 +344,6 @@ export const LibraryProvider = ({ children }) => {
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      dispatch({ TYPE: ACTIONS.TOGGLE_LOADER, payload: { toggle: false } });
     }
   }
 
