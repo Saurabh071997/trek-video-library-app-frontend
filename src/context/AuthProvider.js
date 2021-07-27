@@ -11,7 +11,6 @@ function setupAuthHeaderForServiceCalls(token) {
     delete axios.defaults.headers.common["Authorization"];
     return (axios.defaults.headers.common["Authorization"] = `Bearer ${token}`);
   }
-  // console.log("deleting token now");
   delete axios.defaults.headers.common["Authorization"];
 }
 

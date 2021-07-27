@@ -8,7 +8,9 @@ export const ErrorPage = () => {
 
       <div className="error-txt-sm">Something went wrong</div>
       <Link to="/" style={{ textDecoration: "none" }}>
-        <div className="btn-empty" style={{color:'#0EA5E9'}}>Go to Home -&gt;</div>
+        <div className="btn-empty" style={{ color: "#0EA5E9" }}>
+          Go to Home -&gt;
+        </div>
       </Link>
     </div>
   );

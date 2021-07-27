@@ -1,17 +1,15 @@
-
 .page-head {
-    font-size: var(--txt-225);
-    padding: 1rem;
-    color: var(--truegray200);
+  font-size: var(--txt-225);
+  padding: 1rem;
+  color: var(--truegray200);
 }
 
-@media screen and (max-width:600px){
-    .page-head {
-        font-size: var(--txt-175);
-    }
+@media screen and (max-width: 600px) {
+  .page-head {
+    font-size: var(--txt-175);
+  }
 
-    .card-margin{
-        margin:0rem auto;
-    }
-    
+  .card-margin {
+    margin: 0rem auto;
+  }
 }
