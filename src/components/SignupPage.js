@@ -118,14 +118,6 @@ export const SignupPage = () => {
           )}
 
           <div className="align-center">
-            <div className="page-nav-txt">
-              Already a User?
-              <Link to="/login">
-                {" "}
-                <span className="page-nav-link">Login </span>{" "}
-              </Link>
-            </div>
-
             <button
               className={authLoader ? "btn-login btn-disabled" : "btn-login"}
               onClick={validateSignup}
@@ -142,6 +134,14 @@ export const SignupPage = () => {
                 "Sign up"
               )}
             </button>
+
+            <div className="page-nav-txt">
+              Already a User?
+              <Link to="/login">
+                {" "}
+                <span className="page-nav-link">Login </span>{" "}
+              </Link>
+            </div>
           </div>
         </div>
       </div>

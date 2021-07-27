@@ -45,13 +45,6 @@ export const LoginPage = () => {
             <label>Password</label>
           </div>
           <div className="align-center">
-            <div className="page-nav-txt">
-              New User?
-              <Link to="/signup">
-                <span className="page-nav-link">Create Account</span>
-              </Link>
-            </div>
-
             <button
               className={authLoader ? "btn-login btn-disabled" : "btn-login"}
               onClick={() => {
@@ -98,6 +91,13 @@ export const LoginPage = () => {
                 "Login as Guest"
               )}
             </button>
+
+            <div className="page-nav-txt">
+              New User?
+              <Link to="/signup">
+                <span className="page-nav-link">Create Account</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

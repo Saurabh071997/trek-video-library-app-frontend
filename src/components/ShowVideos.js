@@ -31,7 +31,7 @@ export const ShowVideos = () => {
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {filteredData.map((videoItem) => {
           return (
-            <div className="card-margin" key={videoItem._id}>
+            <div className="card-margin width300" key={videoItem._id}>
               <Link to={`/video/${videoItem._id}`}  >
                 <VideoCard video={videoItem} />
               </Link>
