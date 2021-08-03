@@ -10,7 +10,7 @@
 
 .img-home {
   height: 100%;
-  opacity: 0.65;
+  opacity: 0.5;
 }
 
 .div-home-txt {
@@ -23,8 +23,8 @@
   left: 10%;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  color: var(--truegray100);
-  text-shadow: 0px 4px 4px var(--truegray200);
+  color:whitesmoke;
+  text-shadow: 0px 2px 4px whitesmoke;
   line-height: 8rem;
 }
 
@@ -50,7 +50,7 @@
 
 .div-home-nav-txt {
   font-size: 3rem;
-  color: var(--truegray50);
+  color:whitesmoke;
 }
 
 .stage {
