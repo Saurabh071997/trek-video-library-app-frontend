@@ -1,13 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter as Router} from 'react-router-dom'
+import {LibraryProvider} from './context/LibraryProvider'
+import {AuthProvider} from './context/AuthProvider'
+import {ToastProvider} from './context/ToastProvider'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    <ToastProvider>
+      <AuthProvider>
+        <LibraryProvider>
+          <App />
+        </LibraryProvider>
+      </AuthProvider>
+    </ToastProvider>
+  </Router>,
   document.getElementById('root')
 );
 
